@@ -3,56 +3,56 @@ from django.http import HttpResponse
 
 def homepage(request):
     # add stuff here
-    return 
+    return HttpResponse()
 
 def login(request):
     # add stuff here
-    return
+    return HttpResponse()
 
 def dashboard(request):
     # add stuff here
-    return 
+    return HttpResponse()
 
 def feed(request):
     # add stuff here
-    return
+    return HttpResponse()
 
 def privacy(request):
     # add stuff here
-    return 
+    return HttpResponse()
 
 def saved(request):
     # add stuff here
-    return
+    return HttpResponse()
 
 def post(request):
     # add stuff here
-    return 
+    return HttpResponse()
 
 def editpost(request):
     # add stuff here
-    return
+    return HttpResponse()
 
 def trending(request):
     # add stuff here
-    return 
+    return HttpResponse()
 
 def bestmeals(request):
     # add stuff here
-    return
+    return HttpResponse()
 
 def worstmeals(request):
     # add stuff here
-    return 
+    return HttpResponse()
 
 def recent(request):
     # add stuff here
-    return
+    return HttpResponse()
 
 def rating(request):
     # add stuff here
-    return 
+    return HttpResponse()
 
 def signout(request):
     # add stuff here
-    return
+    return HttpResponse()
