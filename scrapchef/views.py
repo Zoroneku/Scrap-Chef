@@ -1,13 +1,31 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.contrib.auth import authenticate, login, logout
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 def homepage(request):
     # add stuff here
     return HttpResponse()
 
 def login(request):
-    # add stuff here
-    return HttpResponse()
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            if user.is_active:
+                login(request, user)
+                return redirect(reverse('scrapchef:homepage'))
+            else:
+                return HttpResponse("Your ScrapChef account is disabled.")
+        else:
+            print(f"Invalid login details: {username}, {password}")
+            return HttpResponse("Invalid login details supplied.")
+    else:
+        return render(request, 'scrapchef/login.html')
 
 def dashboard(request):
     # add stuff here
@@ -53,6 +71,7 @@ def rating(request):
     # add stuff here
     return HttpResponse()
 
+@login_required
 def signout(request):
-    # add stuff here
-    return HttpResponse()
+    logout(request)
+    return redirect(reverse('scrapchef:homepage'))
