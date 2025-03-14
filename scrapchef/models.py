@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 
 class User(models.Model):
     UserName = models.CharField(max_length=64)
@@ -35,4 +34,3 @@ class List(models.Model):
 
     def __str__(self):
         return self.Title
-
