@@ -23,6 +23,8 @@ MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'f8sq363bzia319dt%m)3wwu@bv@jigyd7-n_!k5#!kl!9u(il@'
 
+YOUTUBE_API_KEY = 'AIzaSyDSCvEbUjI9mFP7v3MMnnpbUYEsBcv7ocs'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -56,7 +58,7 @@ ROOT_URLCONF = 'Scrap_Chef.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'scrapchef', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
