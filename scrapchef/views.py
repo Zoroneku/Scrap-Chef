@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from scrapchef.models import Post, Review
 
 
+
 def homepage(request):
     return render(request, 'scrapchef/homepage.html')
 
@@ -130,7 +131,6 @@ def rating(request, post_name_slug):
         context_dict['post'] = None
 
     return render(request, 'scrapchef/rating.html', context=context_dict)
-
 
 def login(request):
     if request.method == 'POST':
