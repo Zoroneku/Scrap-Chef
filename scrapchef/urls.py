@@ -6,6 +6,7 @@ app_name = 'scrapchef'
 urlpatterns = [
     path('', views.homepage, name='homepage'),
     path('login/', views.login, name='login'),
+    path('signup/', views.signup, name='signup'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('feed/', views.feed, name='feed'),
     path('privacy/', views.privacy, name='privacy'),

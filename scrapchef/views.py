@@ -152,6 +152,10 @@ def login(request):
         return render(request, 'scrapchef/login.html')
     
 
+def signup(request):
+    return render(request, 'scrapchef/signup.html')
+    
+
 @login_required
 def signout(request):
     logout(request)
