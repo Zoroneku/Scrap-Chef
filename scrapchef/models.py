@@ -1,14 +1,13 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-
-class User(models.Model):
-    UserName = models.CharField(max_length=64)
-    Password = models.CharField(max_length=64)
-    Occupation = models.CharField(max_length=64)
-    ProfilePhoto = models.CharField(max_length=255, blank=True, null=True)
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    occupation = models.CharField(max_length=64)
+    profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
 
     def __str__(self):
-        return self.UserName
+        return self.user.username
     
 class Post(models.Model):
     PostID = models.CharField(max_length=64, unique=True)

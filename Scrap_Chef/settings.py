@@ -40,8 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'scrapchef',
+    'django.contrib.staticfiles','scrapchef.apps.ScrapchefConfig',
 ]
 
 MIDDLEWARE = [
@@ -104,6 +103,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'login'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/

@@ -1,10 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Scrap Chef{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'scrapchef/style.css' %}">
 </head>
 <body>
     <header>
@@ -13,12 +14,17 @@
             <a href="{% url 'scrapchef:homepage' %}">Home</a> |
             <a href="{% url 'scrapchef:feed' %}">Feed</a> |
             <a href="{% url 'scrapchef:dashboard' %}">Dashboard</a> |
-            <a href="{% url 'scrapchef:login' %}">Login</a> |
-            <a href="{% url 'scrapchef:signup' %}">Sign Up</a>
+            <a href="{% url 'scrapchef:login_view' %}">Login</a> |
+            <a href="{% url 'scrapchef:signup_view' %}">Sign Up</a>
         </nav>
-    </header>
-    <main>
+
+        <!-- Move content block here to appear under the nav -->
         {% block content %}{% endblock %}
+    </header>
+    
+    <main>
+        <!-- Optional: move content here if it's not for the header -->
     </main>
 </body>
 </html>
+
