@@ -111,23 +111,37 @@ header {
     margin-right: 10px; /* Adds space between the password input and the button */
 }
 
-/* Login Button Styling */
-.password-submit .login-btn {
-    padding: 8px 16px; /* Adds padding inside the login button */
-    width: auto; /* Makes button width automatic */
-    white-space: nowrap; /* Prevents text from wrapping in the button */
-    background-color: #9f7aea; /* Purple background for the login button */
-    color: #1a1a2e; /* Dark text color for button text */
-    border: none; /* Removes border from the button */
-    border-radius: 4px; /* Rounded corners for the button */
-    cursor: pointer; /* Changes cursor to pointer when hovering over the button */
-    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+/* General Button Styling */
+.login-btn,
+.signup-btn {
+    background-color: #9f7aea; /* Purple background */
+    color: #1a1a2e; /* Dark text color */
+    padding: 8px 14px; /* Smaller padding */
+    border: none; /* No border */
+    border-radius: 6px; /* Smooth rounded edges */
+    cursor: pointer; /* Pointer cursor */
+    width: auto; /* Adjust width based on content */
+    font-size: 14px; /* Slightly smaller font */
+    font-weight: bold; /* Make text bold */
+    text-transform: uppercase; /* Uppercase text */
+    transition: all 0.3s ease-in-out; /* Smooth hover effect */
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.3); /* Soft shadow */
 }
 
-/* Login Button Hover Effect */
-.password-submit .login-btn:hover {
-    background-color: #7a57c4; /* Lighter purple background on hover */
+/* Button Hover Effect */
+.login-btn:hover,
+.signup-btn:hover {
+    background-color: #7a57c4; /* Slightly lighter purple */
+    transform: scale(1.05); /* Small scale effect */
 }
+
+/* Button Active (Click) Effect */
+.login-btn:active,
+.signup-btn:active {
+    background-color: #5a3b92; /* Even darker purple when clicked */
+    transform: scale(0.98); /* Press effect */
+}
+
 
 
 /* Signup Container Styling */
