@@ -6,6 +6,10 @@ from django.contrib.auth.decorators import login_required
 from scrapchef.models import Post, Review
 from django.contrib.auth.models import User
 from .models import UserProfile
+from django.db import IntegrityError
+from django.contrib import messages
+from django.urls import reverse_lazy
+from django.contrib.messages import get_messages
 
 
 def homepage(request):
@@ -44,39 +48,46 @@ def saved(request):
     # add stuff here
     return render(request, 'scrapchef/saved.html')
 
-def signup_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        occupation = request.POST.get('occupation', '')  # Optional
-        profile_photo = request.FILES.get('profile_photo', None)  # Optional
 
-        # Check if username already exists
+
+def signup_view(request):
+    if request.method == "POST":
+        username = request.POST.get("username", "").strip()
+        password = request.POST.get("password", "").strip()
+        occupation = request.POST.get("occupation", "").strip()
+        profile_photo = request.FILES.get("profile_photo", None)
+
+        if not username or not password:
+            messages.error(request, "Username and password are required.")
+            return redirect("scrapchef:signup_view")
+
+        if not username.isalnum():
+            messages.error(request, "Username must contain only letters and numbers.")
+            return redirect("scrapchef:signup_view")
+
         if User.objects.filter(username=username).exists():
-            return render(request, "scrapchef/signup.html", {
-                "error": "Username already exists. Please choose another one."
-            })
+            messages.error(request, "Username already exists.")
+            return redirect("scrapchef:signup_view")
 
         try:
-            # Create the user
             user = User.objects.create_user(username=username, password=password)
+            if not UserProfile.objects.filter(user=user).exists():
+                UserProfile.objects.create(user=user, occupation=occupation, profile_photo=profile_photo)
 
-            # Create a UserProfile for the new user
-            UserProfile.objects.create(
-                user=user,
-                occupation=occupation,
-                profile_photo=profile_photo
-            )
+            messages.success(request, "Signup successful! Please log in.")
 
-            return redirect(reverse('scrapchef:login_view'))  # Redirect to login page
+            # ✅ Clear messages before redirecting
+            storage = get_messages(request)
+            for _ in storage:
+                pass  # This will consume messages
 
-        except IntegrityError:
-            return render(request, "scrapchef/signup.html", {
-                "error": "An error occurred. Please try again."
-            })
+            return redirect(reverse_lazy("scrapchef:login_view"))
 
-    return render(request, 'scrapchef/signup.html')
+        except IntegrityError as e:
+            messages.error(request, "An error occurred. Please try again.")
+            return redirect("scrapchef:signup_view")
 
+    return render(request, "scrapchef/signup.html")
 
 def login_view(request):
     if request.method == 'POST':
