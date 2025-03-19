@@ -94,21 +94,24 @@ header {
     font-size: 14px; /* Sets font size for input text */
 }
 
-/* Password Submit (Login Button Styling) */
+/* Password Submit (Login Button and Input Row) */
 .password-submit {
-    display: flex; /* Uses flexbox to align password input and button horizontally */
-    align-items: center; /* Vertically aligns the items in the flexbox */
+    display: flex; /* Keeps input and button in a row */
+    justify-content: center; /* Centers them horizontally */
+    align-items: center; /* Aligns them vertically */
+    width: 100%; /* Full width of the container */
 }
 
 /* Password Input Styling */
 .password-submit input {
-    flex: 1; /* Makes the password input take available space */
+    width: 52%; /* Adjust width to make it smaller */
+    max-width: 250px; /* Prevents the input from being too wide */
     padding: 8px; /* Adds padding inside the password input */
-    border: 1px solid #9f7aea; /* Light purple border for password input */
-    border-radius: 4px; /* Rounded corners for the password input */
-    background-color: #1a1a2e; /* Dark background color for password input */
-    color: #e0e0e0; /* Light text color inside the password input */
-    margin-right: 10px; /* Adds space between the password input and the button */
+    border: 1px solid #9f7aea; /* Light purple border */
+    border-radius: 4px; /* Rounded corners */
+    background-color: #1a1a2e; /* Dark background */
+    color: #e0e0e0; /* Light text color */
+    margin-right: 10px; /* Space between input and button */
 }
 
 /* General Button Styling */

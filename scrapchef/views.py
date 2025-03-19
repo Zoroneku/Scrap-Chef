@@ -48,23 +48,32 @@ def signup_view(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        occupation = request.POST.get('occupation', '') 
-        profile_photo = request.FILES.get('profile_photo', None)
+        occupation = request.POST.get('occupation', '')  # Optional
+        profile_photo = request.FILES.get('profile_photo', None)  # Optional
 
+        # Check if username already exists
         if User.objects.filter(username=username).exists():
-            return HttpResponse("Username already exists.")
+            return render(request, "scrapchef/signup.html", {
+                "error": "Username already exists. Please choose another one."
+            })
 
-        # Create user
-        user = User.objects.create_user(username=username, password=password)
+        try:
+            # Create the user
+            user = User.objects.create_user(username=username, password=password)
 
-        # Create UserProfile explicitly
-        UserProfile.objects.create(
-            user=user,
-            occupation=occupation,
-            profile_photo=profile_photo
-        )
+            # Create a UserProfile for the new user
+            UserProfile.objects.create(
+                user=user,
+                occupation=occupation,
+                profile_photo=profile_photo
+            )
 
-        return redirect(reverse('scrapchef:login_view'))
+            return redirect(reverse('scrapchef:login_view'))  # Redirect to login page
+
+        except IntegrityError:
+            return render(request, "scrapchef/signup.html", {
+                "error": "An error occurred. Please try again."
+            })
 
     return render(request, 'scrapchef/signup.html')
 
