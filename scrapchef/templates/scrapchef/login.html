@@ -1,4 +1,5 @@
 {% extends "scrapchef/base.html" %}
+
 {% block content %}
 <div class="login-container">
     <h1 class="logo">Log <span>In</span></h1>
@@ -18,5 +19,10 @@
             </div>
         </div>
     </form>
+
+    <!-- Sign Up Link at the Bottom Right -->
+    <p class="signup-link">Don't have an account? <a href="{% url 'scrapchef:signup_view' %}">Sign Up</a></p>
+
 </div>
 {% endblock %}
+
