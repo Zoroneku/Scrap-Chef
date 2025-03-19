@@ -10,10 +10,14 @@
         <div class="input-group">
             <label for="username">Username:</label>
             <input type="text" name="username" id="username" required>
+            <!-- Instruction text hidden initially for username -->
+            <p id="username-instructions" class="instructions" style="display:none;">Enter your unique username. It should be 6-20 characters long.</p>
         </div>
         <div class="input-group">
             <label for="password">Password:</label>
             <input type="password" name="password" id="password" required>
+            <!-- Instruction text hidden initially for password -->
+            <p id="password-instructions" class="instructions" style="display:none;">Password must be at least 8 characters long, including a mix of letters and numbers.</p>
         </div>
         <div class="input-group">
             <label for="occupation">Occupation (Optional):</label>
@@ -26,4 +30,32 @@
         <button type="submit" class="signup-btn">Sign Up</button>
     </form>
 </div>
+
+<script>
+    // Get the input elements and instructions
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const usernameInstructions = document.getElementById("username-instructions");
+    const passwordInstructions = document.getElementById("password-instructions");
+
+    // Show instructions for username when the input is focused
+    usernameInput.addEventListener("focus", function() {
+        usernameInstructions.style.display = "block";
+    });
+
+    // Hide instructions for username when the input loses focus
+    usernameInput.addEventListener("blur", function() {
+        usernameInstructions.style.display = "none";
+    });
+
+    // Show instructions for password when the input is focused
+    passwordInput.addEventListener("focus", function() {
+        passwordInstructions.style.display = "block";
+    });
+
+    // Hide instructions for password when the input loses focus
+    passwordInput.addEventListener("blur", function() {
+        passwordInstructions.style.display = "none";
+    });
+</script>
 {% endblock %}
