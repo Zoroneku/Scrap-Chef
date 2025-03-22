@@ -16,15 +16,26 @@ def homepage(request):
     return render(request, 'scrapchef/homepage.html')
 
 
+
 @login_required
 def dashboard(request):
     user = request.user
+    try:
+        user_profile = UserProfile.objects.get(user=user)
+        occupation = user_profile.occupation
+        pfp = user_profile.profile_photo
+    except UserProfile.DoesNotExist:
+        occupation = 'N/A'
+        pfp = None
+
     context_dict = {
         'username': user.username,
-        'occupation': getattr(user, 'occupation', 'N/A'),
+        'occupation': occupation,
         'posts': Post.objects.filter(Username=user.username),
-        'pfp': getattr(user, 'profile_photo', '')}
+        'pfp': pfp
+    }
     return render(request, 'scrapchef/dashboard.html', context=context_dict)
+
 
 def feed(request):
     # context dict has a list of all posts ordered by date
@@ -49,7 +60,6 @@ def saved(request):
     return render(request, 'scrapchef/saved.html')
 
 
-
 def signup_view(request):
     if request.method == "POST":
         username = request.POST.get("username", "").strip()
@@ -71,23 +81,16 @@ def signup_view(request):
 
         try:
             user = User.objects.create_user(username=username, password=password)
-            if not UserProfile.objects.filter(user=user).exists():
-                UserProfile.objects.create(user=user, occupation=occupation, profile_photo=profile_photo)
-
+            UserProfile.objects.create(user=user, occupation=occupation, profile_photo=profile_photo)
             messages.success(request, "Signup successful! Please log in.")
-
-            # ✅ Clear messages before redirecting
-            storage = get_messages(request)
-            for _ in storage:
-                pass  # This will consume messages
-
             return redirect(reverse_lazy("scrapchef:login_view"))
 
-        except IntegrityError as e:
+        except IntegrityError:
             messages.error(request, "An error occurred. Please try again.")
             return redirect("scrapchef:signup_view")
 
     return render(request, "scrapchef/signup.html")
+
 
 def login_view(request):
     if request.method == 'POST':

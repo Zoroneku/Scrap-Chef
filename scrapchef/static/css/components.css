@@ -1,0 +1,53 @@
+/* Login & Signup Containers */
+.login-container, .signup-container {
+    background-color: #2e1a47;
+    padding: 20px;
+    margin-top: 15px;
+    border: 1px solid #9f7aea;
+    border-radius: 8px;
+    width: 320px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+    text-align: center; /* Ensures text is centered */
+}
+
+
+/* Input Fields */
+.input-group input {
+    width: 80%;
+    padding: 8px;
+    border: 1px solid #9f7aea;
+    border-radius: 4px;
+    background-color: #1a1a2e;
+    color: #e0e0e0;
+}
+
+/* Buttons */
+.login-btn, .signup-btn {
+    background-color: #9f7aea;
+    color: #1a1a2e;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+}
+
+.login-btn:hover, .signup-btn:hover {
+    background-color: #7a57c4;
+    transform: scale(1.05);
+}
+
+/* Centering the Login & Signup Containers */
+.auth-page {
+    display: flex;
+    justify-content: center;  /* Centers horizontally */
+    align-items: center;  /* Centers vertically */
+    height: 100vh;  /* Full viewport height */
+}
+
+
+
+

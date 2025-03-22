@@ -1,0 +1,26 @@
+/* Header */
+header {
+    background-color: #2e1a47;
+    color: #e1a2eb;
+    padding: 15px;
+    text-align: center;
+}
+
+/* Navigation */
+nav a {
+    color: #e0e0e0;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #9f7aea;
+}
+
+/* Center header content */
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
