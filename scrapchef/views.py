@@ -1,24 +1,39 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from scrapchef.models import Post, Review
-
+from django.contrib.auth.models import User
+from .models import UserProfile
+from django.db import IntegrityError
+from django.contrib import messages
+from django.urls import reverse_lazy
+from django.contrib.messages import get_messages
 
 
 def homepage(request):
     return render(request, 'scrapchef/homepage.html')
 
 
+
 @login_required
 def dashboard(request):
-    context_dict = {}
-    context_dict['username'] = user.Username
-    context_dict['occupation'] = user.Occupation
-    context_dict['posts'] = Post.objects.filter(Username=user.Username)
-    context_dict['pfp'] = user.ProfilePhoto
+    user = request.user
+    try:
+        user_profile = UserProfile.objects.get(user=user)
+        occupation = user_profile.occupation
+        pfp = user_profile.profile_photo
+    except UserProfile.DoesNotExist:
+        occupation = 'N/A'
+        pfp = None
 
+    context_dict = {
+        'username': user.username,
+        'occupation': occupation,
+        'posts': Post.objects.filter(Username=user.username),
+        'pfp': pfp
+    }
     return render(request, 'scrapchef/dashboard.html', context=context_dict)
 
 
@@ -44,6 +59,52 @@ def saved(request):
     # add stuff here
     return render(request, 'scrapchef/saved.html')
 
+
+def signup_view(request):
+    if request.method == "POST":
+        username = request.POST.get("username", "").strip()
+        password = request.POST.get("password", "").strip()
+        occupation = request.POST.get("occupation", "").strip()
+        profile_photo = request.FILES.get("profile_photo", None)
+
+        if not username or not password:
+            messages.error(request, "Username and password are required.")
+            return redirect("scrapchef:signup_view")
+
+        if not username.isalnum():
+            messages.error(request, "Username must contain only letters and numbers.")
+            return redirect("scrapchef:signup_view")
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Username already exists.")
+            return redirect("scrapchef:signup_view")
+
+        try:
+            user = User.objects.create_user(username=username, password=password)
+            UserProfile.objects.create(user=user, occupation=occupation, profile_photo=profile_photo)
+            messages.success(request, "Signup successful! Please log in.")
+            return redirect(reverse_lazy("scrapchef:login_view"))
+
+        except IntegrityError:
+            messages.error(request, "An error occurred. Please try again.")
+            return redirect("scrapchef:signup_view")
+
+    return render(request, "scrapchef/signup.html")
+
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            auth_login(request, user)
+            return redirect(reverse('scrapchef:dashboard'))
+        else:
+            return HttpResponse("Invalid username or password.")
+    
+    return render(request, 'scrapchef/login.html')
 
 def post(request):
     # add stuff here
@@ -132,35 +193,11 @@ def rating(request, post_name_slug):
 
     return render(request, 'scrapchef/rating.html', context=context_dict)
 
-def login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        user = authenticate(username=username, password=password)
-
-        if user:
-            if user.is_active:
-                login(request, user)
-                return redirect(reverse('scrapchef:homepage'))
-            else:
-                return HttpResponse("Your ScrapChef account is disabled.")
-        else:
-            print(f"Invalid login details: {username}, {password}")
-            return HttpResponse("Invalid login details supplied.")
-    else:
-        return render(request, 'scrapchef/login.html')
     
-
-def signup(request):
-    return render(request, 'scrapchef/signup.html')
-    
-
 @login_required
 def signout(request):
-    logout(request)
+    auth_logout(request)
     return redirect(reverse('scrapchef:homepage'))
-
 
 # ------------ Additional General Functions ----------- #
 

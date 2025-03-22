@@ -1,9 +1,20 @@
 {% extends "scrapchef/base.html" %}
+{% load static %}
 
 {% block title %}Scrap Chef - Home{% endblock %}
 
 {% block content %}
-    <h1>Welcome to Scrap Chef</h1>
-    <p>Welcome to Scrap Chef, your go-to place for meal sharing and ratings!</p>
-{% endblock %}
+<div class="homepage-container">
+    <h1 class="homepage-title">
+        <span class="logo-s">S</span><span class="logo-rest">crap Chef</span>
+    </h1>
+    <div class="homepage-buttons">
+        <a href="{% url 'scrapchef:login_view' %}" class="homepage-btn login-btn">Login</a>
+        <a href="{% url 'scrapchef:signup_view' %}" class="homepage-btn signup-btn">Sign Up</a>
+        <a href="{% url 'scrapchef:feed' %}" class="homepage-btn guest-btn">Guest</a>
 
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'scrapchef/base.html' %}
+
+{% block title %}Dashboard - Scrap Chef{% endblock %}
+
+{% block content %}
+    <h2>Welcome to Your Dashboard</h2>
+    <p>Manage your profile and posts.</p>
+
+    <ul>
+        <li><a href="#">Edit Profile</a></li>
+        <li><a href="#">Privacy & Security</a></li>
+        <li><a href="#">Saved Posts</a></li>
+        <li><a href="#">My Posts</a></li>
+    </ul>
+
+    <button onclick="openPostModal()">Upload a Post</button>
+
+    <!-- Upload Post Pop-up Modal -->
+    <div id="postModal" style="display:none;">
+        <h3>Upload a Post</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label>Upload Media:</label>
+            <input type="file" name="media" required>
+            <label>Caption:</label>
+            <textarea name="caption" required></textarea>
+            <button type="submit">Upload</button>
+            <button type="button" onclick="closePostModal()">Cancel</button>
+        </form>
+    </div>
+
+    <script>
+        function openPostModal() {
+            document.getElementById('postModal').style.display = 'block';
+        }
+        function closePostModal() {
+            document.getElementById('postModal').style.display = 'none';
+        }
+    </script>
+
+{% endblock %}

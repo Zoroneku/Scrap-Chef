@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&display=swap');
+/* ========================= */
+/* General Page Styling */
+/* ========================= */
+body {
+    background-color: #0d0d1a; /* Dark background */
+    color: #e0e0e0; /* Light text */
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height */
+}
+
+/* ========================= */
+/* Homepage Styling */
+/* ========================= */
+.homepage-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Full viewport height */
+    text-align: center;
+}
+
+/* Scrap Chef Title */
+.homepage-title {
+    font-family: 'Josefin Sans', sans-serif; /* Sets the font family for the page */
+    font-size: 90px;
+    font-weight: bold;
+    text-shadow: 4px 4px 0px #54032e;
+}
+
+/* Darker "S" in Scrap */
+.logo-s {
+    color: #5a0e5e; /* Dark purple */
+    font-weight: bold;
+}
+
+/* "crap Chef" same lighter color */
+.logo-rest {
+    color: #f4c2dc; /* Light pink */
+    font-weight: bold;
+}
+
+/* ========================= */
+/* Homepage Buttons - Uniform Size */
+/* ========================= */
+.homepage-btn, 
+.login-btn, 
+.signup-btn, 
+.guest-btn {
+    width: 220px;  /* Ensures all buttons have the same width */
+    height: 50px;  /* Ensures all buttons have the same height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Remove any extra padding */
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+    border: none;
+    margin: 10px 0; /* Space between buttons */
+    cursor: pointer;
+}
+
+/* Specific Button Colors */
+.login-btn, .signup-btn {
+    background-color: #9f7aea;
+    color: whitesmoke;
+}
+
+.guest-btn {
+    background-color: #b19cd9;
+    color: black;
+}
+
+/* Hover Effect */
+.homepage-btn:hover, 
+.login-btn:hover, 
+.signup-btn:hover, 
+.guest-btn:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+}
+
+
+/* ========================= */
+/* Signup & Login Link */
+/* ========================= */
+.signup-link {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 10px;
+    color: #e0e0e0;
+}
+
+.signup-link a {
+    color: #9f7aea;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.signup-link a:hover {
+    color: #7a57c4;
+    text-decoration: underline;
+}

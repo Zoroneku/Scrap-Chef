@@ -1,24 +1,27 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Scrap Chef{% endblock %}</title>
+
+    <!-- Link to all CSS files -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pages.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <header>
-        <h1>Scrap Chef</h1>
-        <nav>
-            <a href="{% url 'scrapchef:homepage' %}">Home</a> |
-            <a href="{% url 'scrapchef:feed' %}">Feed</a> |
-            <a href="{% url 'scrapchef:dashboard' %}">Dashboard</a> |
-            <a href="{% url 'scrapchef:login' %}">Login</a> |
-            <a href="{% url 'scrapchef:signup' %}">Sign Up</a>
-        </nav>
-    </header>
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+    {% block content %}{% endblock %}
 </body>
 </html>
+
+
+   
+
+
