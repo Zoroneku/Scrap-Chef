@@ -1,7 +1,29 @@
 {% extends 'scrapchef/base.html' %}
 {% block title %}Feed - Scrap Chef{% endblock %}
+{% load startswith %}
 
 {% block content %}
     <h2>Latest Posts</h2>
     <p>Here you can see the latest shared meals.</p>
+    {% if zip_post_ratings %}
+        {% for p in zip_post_ratings %}
+        
+            <div>
+                <p><strong>{{ p.0.User }} - {{ p.0.Date }}</strong></p>
+                <p>{{ p.0.Caption }}</p>
+                {% if p.0.Media|startswith:'https://' %}
+                    <iframe width="500" height="300"
+                    src="{{ p.0.Media }}">
+                    </iframe>
+                {% else %}
+                    <img src="/media/profile_photos/maltese-puppy.jpg" alt="Photo of meal" width="500", height="300"/>
+                {% endif %}
+                <p>Ease of Prep: {{ p.1.avgPrep }}</p>
+                <p>Tastiness: {{ p.1.avgTaste }} </p>
+                <p>Struggle: {{ p.1.avgStruggle }} </p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <strong>There are no posts right now :</strong>
+    {% endif %}
 {% endblock %}

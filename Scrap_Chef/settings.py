@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles','scrapchef.apps.ScrapchefConfig',
+    'django.contrib.staticfiles',
+    'scrapchef.apps.ScrapchefConfig',
 ]
 
 MIDDLEWARE = [
