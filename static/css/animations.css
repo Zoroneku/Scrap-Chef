@@ -7,3 +7,16 @@
     display: block;
     animation: fadeIn 0.3s ease-in-out;
 }
+
+
+
+/* Smooth Content Shift */
+.feed-main {
+    flex-grow: 1;
+    padding: 50px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+.sidebar.active + .feed-main {
+    margin-left: 250px;
+}

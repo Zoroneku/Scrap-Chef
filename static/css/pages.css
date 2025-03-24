@@ -1,0 +1,453 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&display=swap');
+/* ========================= */
+/* General Page Styling */
+/* ========================= */
+body {
+    background-color: #0d0d1a; /* Dark background */
+    color: #e0e0e0; /* Light text */
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* got rid of the height cuz it was messing with stuff */
+}
+
+/* ========================= */
+/* Homepage Styling */
+/* ========================= */
+.homepage-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Full viewport height */
+    text-align: center;
+}
+
+/* Scrap Chef Title */
+.homepage-title {
+    font-family: 'Josefin Sans', sans-serif; /* Sets the font family for the page */
+    font-size: 90px;
+    font-weight: bold;
+    text-shadow: 4px 4px 0px #54032e;
+}
+
+/* Darker "S" in Scrap */
+.logo-s {
+    color: #5a0e5e; /* Dark purple */
+    font-weight: bold;
+}
+
+/* "crap Chef" same lighter color */
+.logo-rest {
+    color: #f4c2dc; /* Light pink */
+    font-weight: bold;
+}
+
+/* ========================= */
+/* Homepage Buttons - Uniform Size */
+/* ========================= */
+.homepage-btn, 
+.login-btn, 
+.signup-btn, 
+.guest-btn {
+    width: 220px;  /* Ensures all buttons have the same width */
+    height: 50px;  /* Ensures all buttons have the same height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Remove any extra padding */
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+    border: none;
+    margin: 10px 0; /* Space between buttons */
+    cursor: pointer;
+}
+
+/* Specific Button Colors */
+.login-btn, .signup-btn {
+    background-color: #9f7aea;
+    color: whitesmoke;
+}
+
+.guest-btn {
+    background-color: #b19cd9;
+    color: black;
+}
+
+/* Hover Effect */
+.homepage-btn:hover, 
+.login-btn:hover, 
+.signup-btn:hover, 
+.guest-btn:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+}
+
+
+/* ========================= */
+/* Signup & Login Link */
+/* ========================= */
+.signup-link {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 10px;
+    color: #e0e0e0;
+}
+
+.signup-link a {
+    color: #9f7aea;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.signup-link a:hover {
+    color: #7a57c4;
+    text-decoration: underline;
+}
+
+/* ========================= */
+/* Feed Page Styling */
+/* ========================= */
+.feed-container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #0d0d1a; /* Dark background */
+    color: #e0e0e0;
+}
+
+/* ========================= */
+/* Side Bar Styling */
+/* ========================= */
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    left: -250px; /* Keeps it hidden by default */
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: #1e1e38;
+    padding-top: 60px;
+    transition: left 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 0; /* Sidebar starts invisible */
+    z-index: 1000; /* Ensures it's above other content */
+}
+
+.sidebar.active {
+    left: 0; /* Slides in */
+    opacity: 1; /* Becomes fully visible */
+}
+
+/* Sidebar Overlay (for better UX) */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* Dark transparent background */
+    display: none; /* Hidden by default */
+    z-index: 999; /* Below sidebar but above everything else */
+}
+
+.sidebar.active + .sidebar-overlay {
+    display: block; /* Shows when sidebar is active */
+}
+
+/* Sidebar Menu */
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 150px; /* Push links down */
+    width: 100%;
+}
+
+.sidebar ul li {
+    padding: 10px;
+    text-align: center;
+}
+
+.sidebar ul li a {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 12px 20px;
+    color: lightpink;
+    text-decoration: none;
+    display: block;
+    transition: background 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background: #5a0e5e;
+}
+
+/* Menu Button (☰) */
+.sidebar-toggle-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background-color: #583c75;
+    color: rgb(218, 210, 255);
+    font-size: 18px;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 1101; /* Ensure it's above sidebar */
+    transition: background 0.3s ease-in-out;
+}
+
+.sidebar-toggle-btn:hover {
+    background-color: #7a57c4;
+}
+
+
+/* ========================= */
+/* Main Feed Section */
+/* ========================= */
+body {
+    font-family: 'Josefin Sans', sans-serif; /* Consistent font */
+}
+
+.feed-main {
+    flex-grow: 1;
+    padding: 50px;
+    text-align: center; /* Center the posts */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.feed-title {
+    font-size: 40px;
+    font-weight: bold;
+    color: #f4c2dc;
+    margin-bottom: 20px
+}
+
+/* ========================= */
+/* Post Cards */
+/* ========================= */
+
+.post-card {
+    background-color: #1e1e38; /* Dark grayish purple */
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.post-card:hover {
+    transform: scale(1.02);
+}
+
+.post-user {
+    color: #9f7aea; /* Light purple */
+    font-weight: bold;
+}
+
+.post-caption {
+    font-size: 18px;
+    color: #e0e0e0;
+}
+
+.post-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.post-ratings {
+    font-size: 14px;
+    margin-top: 10px;
+    color: #b19cd9; /* Lighter purple */
+}
+/* ========================= */
+/* Dashboard Layout */
+/* ========================= */
+
+.dashboard-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+}
+
+/* Left Section: User Details */
+.dashboard-left {
+    background: #1a1a2e;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    flex: 1;
+    min-width: 300px;
+}
+
+/* Right Section: Post Links */
+.dashboard-right {
+    background: #29293d;
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    flex: 1;
+    min-width: 300px;
+}
+
+.dashboard-right a {
+    color: #c18cff;
+    text-decoration: none;
+    display: block;
+    margin: 5px 0;
+}
+
+.dashboard-right a:hover {
+    text-decoration: underline;
+}
+
+/* ========================= */
+/* Modal Styles (Upload a post box) */
+/* ========================= */
+
+/* Modal Overlay */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1a1a2e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+    width: 400px;
+    max-width: 90%;
+}
+
+/* Modal Content */
+.modal-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Labels and Inputs */
+.modal label {
+    display: block;
+    font-size: 16px;
+    color: white;
+    margin-top: 10px;
+    text-align: left;
+    width: 100%;
+}
+
+/* File Upload Input */
+.modal input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    background: #29293d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+/* Caption Textarea */
+.modal textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    background: #29293d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    resize: none;
+}
+
+/* Button Styles */
+.modal button {
+    background-color: #7a5cff;
+    color: white;
+    padding: 10px 15px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.modal button:hover {
+    background-color: #c18cff;
+}
+
+.modal button[type="button"] {
+    background-color: #ff4c4c;
+}
+
+.modal button[type="button"]:hover {
+    background-color: #ff6666;
+}
+
+/* ========================= */
+/* Upload a post button */
+/* ========================= */
+
+/* Upload a Post Button */
+.upload-btn {
+    background-color: #7a5cff; /* Matching purple */
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-block;
+    transition: background 0.3s ease, transform 0.2s ease;
+    width: 100%;
+}
+
+/* Hover Effect */
+.upload-btn:hover {
+    background-color: #c18cff; /* Lighter purple for hover effect */
+    transform: scale(1.05);
+}
+
+/* Click Effect */
+.upload-btn:active {
+    transform: scale(0.95);
+}
+
+/* ========================= */
+/* Edit-Posts */
+/* ========================= */
+
+.edit-posts {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.edit-posts a {
+    color: #c18cff;
+    text-decoration: none;
+}
+
+.edit-posts a:hover {
+    text-decoration: underline;
+}
+

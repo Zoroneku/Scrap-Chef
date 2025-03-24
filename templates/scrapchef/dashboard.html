@@ -1,41 +1,98 @@
 {% extends 'scrapchef/base.html' %}
+{% load static %}
 
 {% block title %}Dashboard - Scrap Chef{% endblock %}
 
 {% block content %}
-    <h2>Welcome to Your Dashboard</h2>
-    <p>Manage your profile and posts.</p>
+    <!-- Menu Button -->
+    <button class="sidebar-toggle-btn" onclick="toggleSidebar()">☰ Menu</button>
 
-    <ul>
-        <li><a href="#">Edit Profile</a></li>
-        <li><a href="#">Privacy & Security</a></li>
-        <li><a href="#">Saved Posts</a></li>
-        <li><a href="#">My Posts</a></li>
-    </ul>
-
-    <button onclick="openPostModal()">Upload a Post</button>
-
-    <!-- Upload Post Pop-up Modal -->
-    <div id="postModal" style="display:none;">
-        <h3>Upload a Post</h3>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <label>Upload Media:</label>
-            <input type="file" name="media" required>
-            <label>Caption:</label>
-            <textarea name="caption" required></textarea>
-            <button type="submit">Upload</button>
-            <button type="button" onclick="closePostModal()">Cancel</button>
-        </form>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="{% url 'scrapchef:feed' %}">📜 Feed</a></li>
+            <li><a href="{% url 'scrapchef:signout' %}">🚪 Sign Out</a></li>
+        </ul>
     </div>
 
+    <!-- Dashboard Container -->
+    <div class="dashboard-layout">
+        
+        <!-- Left Section: User Details -->
+        <div class="dashboard-left">
+            <h2>Welcome, {{ user.username }}</h2>
+            <p><strong>Occupation:</strong> {{ user.profile.occupation|default:"Not specified" }}</p>
+            <p><strong>Number of Posts:</strong> 
+                {% with user.posts.all|default_if_none:'' as posts %}
+                    {% if posts|length > 0 %}
+                        {{ posts|length }}
+                    {% else %}
+                        No culinary masterpieces posted yet :(
+                    {% endif %}
+                {% endwith %}
+            </p>
+            
+            <button class="upload-btn" onclick="openPostModal()">Upload a Post</button>
+        </div>
+
+        <!-- Right Section: Post Links -->
+        <div class="dashboard-right">
+            <h3>Your Posts</h3>
+            {% for post in user.posts.all %}
+                <p><a href="{% url 'editpost' post_name_slug=post.slug %}">Edit "{{ post.title }}"</a></p>
+            {% empty %}
+                <p>No posts yet. Start by uploading one!</p>
+            {% endfor %}
+        </div>
+    
+    </div>
+
+    <!-- Upload Post Modal -->
+    <div id="postModal" class="modal" onclick="closePostModal(event)">
+        <div class="modal-content">
+            <h3>Upload a Post</h3>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label>Upload Media:</label>
+                <input type="file" name="media" required>
+                <label>Caption:</label>
+                <textarea name="caption" required></textarea>
+                <button type="submit" class="modal-btn">Upload</button>
+                <button type="button" class="modal-btn cancel" onclick="closePostModal()">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript for Sidebar & Modal -->
     <script>
-        function openPostModal() {
-            document.getElementById('postModal').style.display = 'block';
-        }
-        function closePostModal() {
-            document.getElementById('postModal').style.display = 'none';
-        }
+        document.addEventListener("DOMContentLoaded", function () {
+            const sidebar = document.getElementById("sidebar");
+            const toggleButton = document.querySelector(".sidebar-toggle-btn");
+            const modal = document.getElementById("postModal");
+    
+            // Toggle Sidebar (Menu Button)
+            toggleButton.addEventListener("click", function () {
+                sidebar.classList.toggle("active");
+            });
+    
+            // Open Post Modal
+            function openPostModal() {
+                modal.style.display = 'block';
+            }
+    
+            // Close Post Modal (Click outside to close)
+            function closePostModal(event) {
+                if (!event || event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            }
+    
+            // Attach functions to global scope so they work with inline event handlers
+            window.openPostModal = openPostModal;
+            window.closePostModal = closePostModal;
+        });
     </script>
+    
 
 {% endblock %}
+
