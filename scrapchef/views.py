@@ -37,17 +37,22 @@ def dashboard(request):
 
 
 def feed(request):
-    # context dict has a list of all posts ordered by date
     post_list = Post.objects.order_by('Date')
     avg_ratings = []
+    
     for post in post_list:
-        result = getPostAvgRatings(post)
-        if result != None:
-            avg_ratings.append(result)
+        avg_ratings.append(getPostAvgRatings(post))
 
-    context_dict = {}
-    context_dict['zip_post_ratings'] = zip(post_list, avg_ratings)
+    # Add a new attribute to check if media is a URL
+    for post in post_list:
+        post.is_url = post.Media.startswith("http")
+
+    context_dict = {
+        'zip_post_ratings': zip(post_list, avg_ratings),
+    }
+    
     return render(request, 'scrapchef/feed.html', context=context_dict)
+
 
 
 def privacy(request):
