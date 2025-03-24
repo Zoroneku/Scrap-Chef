@@ -6,7 +6,7 @@ from googleapiclient.discovery import build
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Scrap_Chef.settings')
 django.setup()
 
-from scrapchef.models import User, Post, Review, List
+from scrapchef.models import User, UserProfile, Post, Review, List
 from django.core.management import call_command
 
 YOUTUBE_API_KEY = 'AIzaSyDSCvEbUjI9mFP7v3MMnnpbUYEsBcv7ocs'
@@ -54,19 +54,23 @@ def fetch_youtube_recipes(query="recipe", max_results=10):
 def create_users(count=15):
     """Create default users."""
     occupations = ["Chef", "Food Blogger", "Home Cook", "Baker"]
+    names= []
 
     for _ in range(count):
         username = generate_username()
         
-        while User.objects.filter(UserName=username).exists():
+        while username in names:
             username = generate_username()
-        
-        User.objects.create(
-            UserName=username,
-            Password="hashedpassword",
-            Occupation=random.choice(occupations),
-            ProfilePhoto=""
-        )
+
+        new_user = User.objects.create_user(username=username, password="hashedpassword")
+
+        user_profile = UserProfile.objects.get(User=new_user)
+        user_profile.Occupation = random.choice(occupations)
+        user_profile.Profile_photo = ""
+
+        user_profile.save()
+        new_user.save()
+        names.append(username)
 
 def populate():
     print("Populating database with 15 default users and YouTube recipe videos...")
@@ -78,9 +82,9 @@ def populate():
 
     for video in videos:
         Post.objects.create(
-            PostID=video["video_id"],
-            Media=f"https://www.youtube.com/watch?v={video['video_id']}",
-            Caption=video["title"]
+            Media=f"https://www.youtube.com/embed/{video['video_id']}",
+            Caption=video["title"],
+            User = random.choice(User.objects.all())
         )
 
     print("Database population complete! (Users & Posts added, Lists & Reviews remain empty)")

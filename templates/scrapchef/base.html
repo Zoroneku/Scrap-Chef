@@ -1,27 +1,26 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Scrap Chef{% endblock %}</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Scrap Chef{% endblock %}</title>
 
-    <!-- Link to all CSS files -->
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
-    <link rel="stylesheet" href="{% static 'css/components.css' %}">
-    <link rel="stylesheet" href="{% static 'css/pages.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+        <!-- Link to all CSS files -->
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+        <link rel="stylesheet" href="{% static 'css/components.css' %}">
+        <link rel="stylesheet" href="{% static 'css/pages.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'css/animations.css' %}">
 
-    {% block extra_css %}{% endblock %}
-</head>
-<body>
-    {% block content %}{% endblock %}
-</body>
+        {% block extra_css %}
+        {% endblock %}
+    </head>
+    <body>
+        <div>
+            {% block content %}
+            {% endblock %}
+        </div>
+    </body>
 </html>
-
-
-   
-
-

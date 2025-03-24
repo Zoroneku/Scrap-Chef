@@ -16,14 +16,13 @@ def homepage(request):
     return render(request, 'scrapchef/homepage.html')
 
 
-
 @login_required
 def dashboard(request):
     user = request.user
     try:
-        user_profile = UserProfile.objects.get(user=user)
-        occupation = user_profile.occupation
-        pfp = user_profile.profile_photo
+        user_profile = UserProfile.objects.get(User=user)
+        occupation = user_profile.Occupation
+        pfp = user_profile.Profile_photo
     except UserProfile.DoesNotExist:
         occupation = 'N/A'
         pfp = None
@@ -31,7 +30,7 @@ def dashboard(request):
     context_dict = {
         'username': user.username,
         'occupation': occupation,
-        'posts': Post.objects.filter(Username=user.username),
+        'posts': Post.objects.filter(User=user),
         'pfp': pfp
     }
     return render(request, 'scrapchef/dashboard.html', context=context_dict)
@@ -39,14 +38,15 @@ def dashboard(request):
 
 def feed(request):
     # context dict has a list of all posts ordered by date
-    post_list = Post.objects.order_by('date')
+    post_list = Post.objects.order_by('Date')
     avg_ratings = []
     for post in post_list:
-        avg_ratings.append(getPostAvgRatings(post))
+        result = getPostAvgRatings(post)
+        if result != None:
+            avg_ratings.append(result)
 
     context_dict = {}
-    context_dict['posts'] = post_list
-    context_dict['avg_ratings'] = avg_ratings
+    context_dict['zip_post_ratings'] = zip(post_list, avg_ratings)
     return render(request, 'scrapchef/feed.html', context=context_dict)
 
 
@@ -81,7 +81,12 @@ def signup_view(request):
 
         try:
             user = User.objects.create_user(username=username, password=password)
-            UserProfile.objects.create(user=user, occupation=occupation, profile_photo=profile_photo)
+            user_profile = UserProfile.objects.get(User=user)
+            user_profile.Occupation = occupation
+            user_profile.Profile_photo = ""
+            user_profile.save()
+            user.save()
+
             messages.success(request, "Signup successful! Please log in.")
             return redirect(reverse_lazy("scrapchef:login_view"))
 
@@ -129,7 +134,7 @@ def trending(request):
     posts_with_ratings = []
     avg_ratings = []
     for post in post_list:
-        posts_with_ratings.append((post, len(Review.objects.filter(PostID=post.postID))))
+        posts_with_ratings.append((post, len(Review.objects.filter(Post_id=post.id))))
         avg_ratings.append(getPostAvgRatings(post))
 
     posts_with_ratings.sort(key=lambda x: x[1], reverse=True)
@@ -170,7 +175,7 @@ def worstmeals(request):
 
 def recent(request):
     # context dict has a list of all posts ordered by date
-    post_list = Post.objects.order_by('date')
+    post_list = Post.objects.order_by('Date')
     
     avg_ratings = []
     for post in post_list:
@@ -212,10 +217,10 @@ def orderByMealTastiness(post_list):
 
         # getting average tastiness rating of all reviews for this post
         total_tastiness = 0
-        for review in Review.objects.filter(PostID=post.postID):
+        for review in Review.objects.filter(Post_id=post.id):
             total_tastiness += review.Taste
 
-        avg_tastiness = total_tastiness/len(Review.objects.filter(PostID=post.postID))
+        avg_tastiness = total_tastiness/len(Review.objects.filter(Post_id=post.id))
 
         posts_with_ratings.append((post, avg_tastiness))
 
@@ -234,14 +239,18 @@ def getPostAvgRatings(post):
     total_tastiness = 0
     total_struggle = 0
     total_prep = 0
-    for review in Review.objects.filter(PostID=post.postID):
+    for review in Review.objects.filter(Post_id=post.id):
         total_tastiness += review.Taste
         total_struggle += review.Struggle
         total_prep += review.Preparation
 
-    review_count = len(Review.objects.filter(PostID=post.postID))
-    avg_ratings['avgTaste'] = total_tastiness/review_count
-    avg_ratings['avgStruggle'] = total_struggle/review_count
-    avg_ratings['avgPrep'] = round(total_prep/review_count)
-
-    return avg_ratings
+    review_count = len(Review.objects.filter(Post_id=post.id))
+    if review_count != 0:
+        avg_ratings['avgTaste'] = round(total_tastiness/review_count)
+        avg_ratings['avgStruggle'] = round(total_struggle/review_count)
+        avg_ratings['avgPrep'] = round(total_prep/review_count)
+    else:
+        avg_ratings['avgTaste'] = "N/A"
+        avg_ratings['avgStruggle'] = "N/A"
+        avg_ratings['avgPrep'] = "N/A"
+    return avg_ratings 
