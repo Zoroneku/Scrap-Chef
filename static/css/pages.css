@@ -277,7 +277,6 @@ body {
 
 
 
-
 .post-meta-actions {
     display: flex;
     flex-direction: column;
@@ -305,6 +304,22 @@ body {
     background-color: #c18cff;
   }
 
+  .delete-btn-img {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  
+  .delete-img {
+    height: 32px;
+    width: auto;
+    transition: transform 0.2s ease;
+  }
+  
+  .delete-img:hover {
+    transform: scale(1.05);
+  }
 
 
 
@@ -587,3 +602,15 @@ body {
     margin-top: 5px;
     height: 18px; /* Prevent layout shift */
   }
+
+  .post-item {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.dashboard-post-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
