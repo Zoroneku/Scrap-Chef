@@ -20,3 +20,7 @@
 .sidebar.active + .feed-main {
     margin-left: 250px;
 }
+
+.delete-img:hover {
+    transform: scale(1.2) rotate(-10deg);
+}

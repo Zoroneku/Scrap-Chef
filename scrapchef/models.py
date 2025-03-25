@@ -10,20 +10,24 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.User.username
     
+
 class Post(models.Model):
-    Media = models.CharField(max_length=255)
+    Media = models.ImageField(upload_to='uploads/')
     Caption = models.CharField(max_length=255)
     Date = models.DateTimeField(auto_now_add=True)
-    User = models.ForeignKey(User, on_delete=models.CASCADE)
+    User = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     slug = models.SlugField(unique=True, blank=True)
 
-
-
-    def save(self, *agrs, **kwargs):
+    def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.Caption)
-        super(Post, self).save(*agrs, **kwargs)
-
+            base_slug = slugify(self.Caption)
+            slug = base_slug
+            counter = 1
+            while Post.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.Caption

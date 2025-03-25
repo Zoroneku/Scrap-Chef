@@ -23,13 +23,11 @@
             <h2>Welcome, {{ user.username }}</h2>
             <p><strong>Occupation:</strong> {{ user.profile.occupation|default:"Not specified" }}</p>
             <p><strong>Number of Posts:</strong> 
-                {% with user.posts.all|default_if_none:'' as posts %}
-                    {% if posts|length > 0 %}
-                        {{ posts|length }}
-                    {% else %}
-                        No culinary masterpieces posted yet :(
-                    {% endif %}
-                {% endwith %}
+                {% if posts %}
+                    {{ posts|length }}
+                {% else %}
+                    No culinary masterpieces posted yet :(
+                {% endif %}
             </p>
             
             <button class="upload-btn" onclick="openPostModal()">Upload a Post</button>
@@ -38,8 +36,19 @@
         <!-- Right Section: Post Links -->
         <div class="dashboard-right">
             <h3>Your Posts</h3>
-            {% for post in user.posts.all %}
-                <p><a href="{% url 'editpost' post_name_slug=post.slug %}">Edit "{{ post.title }}"</a></p>
+            {% for post in posts %}
+                <div class="edit-posts">
+                    <div class="post-item">
+                        <img src="{{ post.Media.url }}" alt="Post Media" class="dashboard-post-img">
+                        <p>{{ post.Caption }}</p>
+                    </div>
+                    <form action="{% url 'scrapchef:delete_post' post.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-btn-img">
+                            <img src="{% static 'images/delete.png' %}" alt="Delete" class="delete-img">
+                        </button>
+                    </form>
+                </div>
             {% empty %}
                 <p>No posts yet. Start by uploading one!</p>
             {% endfor %}
@@ -51,7 +60,7 @@
     <div id="postModal" class="modal" onclick="closePostModal(event)">
         <div class="modal-content">
             <h3>Upload a Post</h3>
-            <form method="POST" enctype="multipart/form-data">
+            <form method="POST" action="{% url 'scrapchef:upload_post' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 <label>Upload Media:</label>
                 <input type="file" name="media" required>
