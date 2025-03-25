@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
 class UserProfile(models.Model):
     User = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -14,9 +15,20 @@ class Post(models.Model):
     Caption = models.CharField(max_length=255)
     Date = models.DateTimeField(auto_now_add=True)
     User = models.ForeignKey(User, on_delete=models.CASCADE)
+    slug = models.SlugField(unique=True, blank=True)
+
+
+
+    def save(self, *agrs, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.Caption)
+        super(Post, self).save(*agrs, **kwargs)
+
 
     def __str__(self):
         return self.Caption
+    
+
     
 class Review(models.Model):
     Taste = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])  
