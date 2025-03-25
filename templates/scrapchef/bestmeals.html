@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed - Scrap Chef</title>
+    <link rel="stylesheet" href="{% static 'css/pages.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+</head>
+<body>
+
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle-btn">☰ Menu</button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="{% url 'scrapchef:homepage' %}">🏠 Home</a></li> <!-- Home link -->
+            <li><a href="{% url 'scrapchef:bestmeals' %}">Best Meals</a></li>
+            <li><a href="{% url 'scrapchef:worstmeals' %}">Worst Meals</a></li>
+            
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'scrapchef:dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'scrapchef:saved' %}">Saved Posts</a></li>
+                <li><a href="{% url 'scrapchef:signout' %}">Sign Out</a></li>
+
+            {% endif %}
+        </ul>
+        
+    </div>
+
+    <!-- Main Feed Content -->
+    <div class="feed-main">
+        <h2>Best Meals</h2>
+        <p>Here you can see the latest shared meals, ordered by highest taste rating first.</p>
+
+        {% if zip_post_ratings %}
+            {% for p in zip_post_ratings %}
+                <div class="post-card">
+                    <p><strong>{{ p.0.User }} - {{ p.0.Date }}</strong></p>
+                    <p>{{ p.0.Caption }}</p>
+                    {% if p.0.is_url %}
+                    <iframe width="500" height="300" src="{{ p.0.Media }}"></iframe>
+                    {% else %}
+                    <img src="{{ p.0.Media.url }}" alt="Meal Photo" width="500" height="300"/>
+                    {% endif %}
+                    <p>Ease of Prep: {{ p.1.avgPrep }}</p>
+                    <p>Tastiness: {{ p.1.avgTaste }}</p>
+                    <p>Struggle: {{ p.1.avgStruggle }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <strong>No posts available right now.</strong>
+        {% endif %}
+    </div>
+
+    <!-- JavaScript for Sidebar Toggle -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let sidebar = document.getElementById("sidebar");
+            let toggleBtn = document.querySelector(".sidebar-toggle-btn");
+
+            function toggleSidebar(event) {
+                sidebar.classList.toggle("active");
+                event.stopPropagation(); // Prevents immediate closing
+            }
+
+            toggleBtn.addEventListener("click", toggleSidebar);
+            closeBtn.addEventListener("click", toggleSidebar);
+
+            document.addEventListener("click", function (event) {
+                if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
+                    sidebar.classList.remove("active");
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

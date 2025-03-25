@@ -156,25 +156,36 @@ def trending(request):
 
 
 def bestmeals(request):
-    post_list = Post.objects
+    post_list = Post.objects.all()
     sorted_posts, avg_ratings = orderByMealTastiness(post_list)
 
+    if len(avg_ratings) != 0:
+        sorted_posts.reverse()
+        avg_ratings.reverse()
 
-    # context dict contains a list of posts ordered most to least tasty
-    context_dict = {}
-    context_dict['posts'] = sorted_posts
-    context_dict['avg_ratings'] = avg_ratings
+    # Add a new attribute to check if media is a URL
+    for post in sorted_posts:
+        post.is_url = post.Media.startswith("http")
+
+    context_dict = {
+        'zip_post_ratings': zip(sorted_posts, avg_ratings),
+    }
+
     return render(request, 'scrapchef/bestmeals.html', context=context_dict)
 
 
 def worstmeals(request):
-    post_list = Post.objects
+    post_list = Post.objects.all()
     sorted_posts, avg_ratings = orderByMealTastiness(post_list)
 
-    # context dict contains a list of posts ordered least to most tasty
-    context_dict = {}
-    context_dict['posts'] = sorted_posts
-    context_dict['avg_ratings'] = avg_ratings
+    # Add a new attribute to check if media is a URL
+    for post in sorted_posts:
+        post.is_url = post.Media.startswith("http")
+
+    context_dict = {
+        'zip_post_ratings': zip(sorted_posts, avg_ratings),
+    }
+
     return render(request, 'scrapchef/worstmeals.html', context=context_dict)
 
 
@@ -218,44 +229,53 @@ def orderByMealTastiness(post_list):
 
     for post in post_list:
 
-        avg_ratings.append(getPostAvgRatings(post))
+        reviews = Review.objects.filter(Post_id=post.id)
 
         # getting average tastiness rating of all reviews for this post
         total_tastiness = 0
-        for review in Review.objects.filter(Post_id=post.id):
+        for review in reviews:
             total_tastiness += review.Taste
 
-        avg_tastiness = total_tastiness/len(Review.objects.filter(Post_id=post.id))
+        if len(reviews) == 0:
+            avg_tastiness = 0
+        else:
+            avg_tastiness = total_tastiness/len(reviews)
 
+        avg_ratings.append((getPostAvgRatings(post), avg_tastiness))
         posts_with_ratings.append((post, avg_tastiness))
 
+    avg_ratings.sort(key=lambda x: x[1])
     posts_with_ratings.sort(key=lambda x: x[1])
+
     sorted_posts = []
-    for item in posts_with_ratings:
-        sorted_posts.append(item[0])
+    sorted_ratings = []
+    for i in range(len(posts_with_ratings)):
+        sorted_posts.append(posts_with_ratings[i][0])
+        sorted_ratings.append(avg_ratings[i][0])
         
-    return sorted_posts, avg_ratings
+    return sorted_posts, sorted_ratings
 
 
 # function to calculate the average ratings of a given post
 def getPostAvgRatings(post):
     avg_ratings = {}
 
+    reviews = Review.objects.filter(Post_id=post.id)
     total_tastiness = 0
     total_struggle = 0
     total_prep = 0
-    for review in Review.objects.filter(Post_id=post.id):
+    for review in reviews:
         total_tastiness += review.Taste
         total_struggle += review.Struggle
         total_prep += review.Preparation
 
-    review_count = len(Review.objects.filter(Post_id=post.id))
+    review_count = len(reviews)
     if review_count != 0:
         avg_ratings['avgTaste'] = round(total_tastiness/review_count)
         avg_ratings['avgStruggle'] = round(total_struggle/review_count)
         avg_ratings['avgPrep'] = round(total_prep/review_count)
     else:
-        avg_ratings['avgTaste'] = "N/A"
-        avg_ratings['avgStruggle'] = "N/A"
-        avg_ratings['avgPrep'] = "N/A"
+        avg_ratings['avgTaste'] = 0
+        avg_ratings['avgStruggle'] = 0
+        avg_ratings['avgPrep'] = 0
     return avg_ratings 
