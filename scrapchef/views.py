@@ -204,7 +204,6 @@ def recent(request):
 
 
 def rating(request, post_name_slug):
-    # context dict has simply the post that is being reviewed
     context_dict = {}
     try:
         post = Post.objects.get(slug=post_name_slug)
@@ -212,8 +211,25 @@ def rating(request, post_name_slug):
     except Post.DoesNotExist:
         context_dict['post'] = None
 
-    return render(request, 'scrapchef/rating.html', context=context_dict)
+    if request.method == 'POST' and post:
+        taste_val = request.POST.get('taste')
+        struggle_val = request.POST.get('struggle')
+        prep_val = request.POST.get('prep')
 
+        if taste_val and struggle_val and prep_val:
+            taste = int(taste_val)
+            struggle = int(struggle_val)
+            prep = int(prep_val)
+
+            review = Review(Taste=taste, Struggle=struggle, Preparation=prep, Post=post)
+            review.save()
+
+            return redirect('scrapchef:feed')  # or wherever you want to go after rating
+
+        # Optional: error message if something's missing
+        context_dict['error'] = "Please select a value for all 3 categories before submitting."
+
+    return render(request, 'scrapchef/rating.html', context=context_dict)
     
 @login_required
 def signout(request):

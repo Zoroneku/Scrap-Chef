@@ -16,12 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include
-from scrapchef import views
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', views.homepage, name='homepage'),
-    path('scrapchef/', include('scrapchef.urls')),
+    path('', include('scrapchef.urls')),  # Ensures all `scrapchef` URLs are included properly
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

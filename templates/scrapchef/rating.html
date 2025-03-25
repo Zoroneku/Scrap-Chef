@@ -1,0 +1,87 @@
+{% extends 'scrapchef/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="rating-page">
+  <h2>You are rating {{ post.User.username }}’s post…</h2>
+
+  {% if error %}
+    <p class="error-text">{{ error }}</p>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+
+    <!-- TASTE -->
+    <div class="rating-section">
+      <h3>Taste</h3>
+      <div class="button-grid" data-category="taste">
+        <button type="button" data-value="1">🎂 Peak Culinary Excellence</button>
+        <button type="button" data-value="2">😋 Surprisingly Edible</button>
+        <button type="button" data-value="3">🍽️ Prison Cafeteria</button>
+        <button type="button" data-value="4">💀 Apocalypse Rations</button>
+        <button type="button" data-value="5">☠️ Satan’s Leftovers</button>
+      </div>
+      <input type="hidden" name="taste">
+    </div>
+
+    <!-- STRUGGLE -->
+    <div class="rating-section">
+      <h3>Struggle Level</h3>
+      <div class="button-grid" data-category="struggle">
+        <button type="button" data-value="1">👨‍🍳 Gordon Ramsay Level</button>
+        <button type="button" data-value="2">🥫 End of the Month Level</button>
+        <button type="button" data-value="3">🧒 Victorian Child Level</button>
+        <button type="button" data-value="4">🪓 Medieval Peasant Level</button>
+        <button type="button" data-value="5">🧟‍♀️ Great Depression Level</button>
+      </div>
+      <input type="hidden" name="struggle">
+    </div>
+
+    <!-- PREP -->
+    <div class="rating-section">
+      <h3>Ease of Preparation</h3>
+      <div class="button-grid" data-category="prep">
+        <button type="button" data-value="1">🥄 (Super Easy)</button>
+        <button type="button" data-value="2">🥄🥄 </button>
+        <button type="button" data-value="3">🥄🥄🥄 </button>
+        <button type="button" data-value="4">🥄🥄🥄🥄 </button>
+        <button type="button" data-value="5">🥄🥄🥄🥄🥄 (Hard)</button>
+      </div>
+      <input type="hidden" name="prep">
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-area">
+      <button type="submit" class="rate-button">Rate</button>
+    </div>
+  </form>
+</div>
+
+<!-- JavaScript -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('.button-grid').forEach(group => {
+      const inputName = group.getAttribute("data-category");
+      group.querySelectorAll('button').forEach(button => {
+        button.addEventListener('click', () => {
+          group.querySelectorAll('button').forEach(btn => btn.classList.remove('selected'));
+          button.classList.add('selected');
+          document.querySelector(`input[name="${inputName}"]`).value = button.dataset.value;
+        });
+      });
+    });
+  });
+</script>
+
+<!-- Extra Styling for Error Message -->
+<style>
+  .error-text {
+  color: #c52c2c;
+  font-weight: bold;
+  margin-bottom: 20px;
+  font-size: 16px;
+  text-align: center;
+}
+</style>
+{% endblock %}

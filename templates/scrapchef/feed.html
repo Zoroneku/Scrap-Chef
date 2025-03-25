@@ -45,9 +45,14 @@
                     {% else %}
                     <img src="{{ p.0.Media.url }}" alt="Meal Photo" width="500" height="300"/>
                     {% endif %}
-                    <p>Ease of Prep: {{ p.1.avgPrep }}</p>
-                    <p>Tastiness: {{ p.1.avgTaste }}</p>
-                    <p>Struggle: {{ p.1.avgStruggle }}</p>
+
+                    <div class="post-meta-actions">
+                        <p>Ease of Prep: {{ p.1.avgPrep }}</p>
+                        <p>Tastiness: {{ p.1.avgTaste }}</p>
+                        <p>Struggle: {{ p.1.avgStruggle }}</p>
+                        <a href="{% url 'scrapchef:rating' p.0.slug %}" class="rate-button">rate</a>
+                      </div>
+                      
                 </div>
             {% endfor %}
         {% else %}
