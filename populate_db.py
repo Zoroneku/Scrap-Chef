@@ -72,6 +72,11 @@ def create_users(count=15):
         new_user.save()
         names.append(username)
 
+def create_views():
+    for post in Post.objects.all():
+        for _ in range(3):
+            Review.objects.create(Taste=random.randint(0,5), Struggle=random.randint(0,5), Preparation=random.randint(0,5), Post=post)
+
 def populate():
     print("Populating database with 15 default users and YouTube recipe videos...")
 
@@ -86,6 +91,8 @@ def populate():
             Caption=video["title"],
             User = random.choice(User.objects.all())
         )
+
+    create_views()
 
     print("Database population complete! (Users & Posts added, Lists & Reviews remain empty)")
 
