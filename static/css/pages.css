@@ -274,6 +274,55 @@ body {
     margin-top: 10px;
     color: #b19cd9; /* Lighter purple */
 }
+
+
+
+.post-meta-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 10px;
+    gap: 6px;
+  }
+  .post-meta-actions p {
+    margin: 0;
+    color: #e0e0e0;
+    font-size: 14px;
+    text-align: right;
+  }
+  .post-meta-actions .rate-button {
+    background-color: #7a5cff;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    display: inline-block;
+  }
+  .post-meta-actions .rate-button:hover {
+    background-color: #c18cff;
+  }
+
+  .delete-btn-img {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  
+  .delete-img {
+    height: 32px;
+    width: auto;
+    transition: transform 0.2s ease;
+  }
+  
+  .delete-img:hover {
+    transform: scale(1.05);
+  }
+
+
+
 /* ========================= */
 /* Dashboard Layout */
 /* ========================= */
@@ -451,3 +500,117 @@ body {
     text-decoration: underline;
 }
 
+/* ========================= */
+/* Rating Page Styling */
+/* ========================= */
+
+.rating-page {
+    padding: 40px 20px;
+    text-align: center;
+    color: #e0e0e0;
+  }
+  
+  .rating-page h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #f4c2dc;
+  }
+  
+  .rating-section {
+    margin: 30px 0;
+  }
+  
+  .rating-section h3 {
+    font-size: 22px;
+    color: #b19cd9;
+    margin-bottom: 15px;
+  }
+  
+  .button-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  .button-grid button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #9f7aea;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+    min-width: 200px;
+  }
+  
+  .button-grid button:hover {
+    background-color: #c18cff;
+    transform: scale(1.05);
+  }
+  
+  .submit-area {
+    margin-top: 40px;
+  }
+  
+  .rate-button {
+    background-color: #7a5cff;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.3s ease;
+  }
+  
+  .rate-button:hover {
+    background-color: #c18cff;
+    transform: scale(1.05);
+  }
+
+  /* Highlight selected rating option */
+.button-grid button.selected {
+    background-color: #c18cff;
+    color: #1a1a2e;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #f4c2dc;
+  }
+  
+  /* Rate Button Image */
+  .rate-button-img {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  
+  .rate-img {
+    width: 180px;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .rate-button-img:hover .rate-img {
+    transform: scale(1.05);
+  }
+
+  .error-text {
+    color: #ff6b6b;
+    font-size: 14px;
+    margin-top: 5px;
+    height: 18px; /* Prevent layout shift */
+  }
+
+  .post-item {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.dashboard-post-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}

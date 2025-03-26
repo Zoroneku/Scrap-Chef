@@ -10,31 +10,49 @@ from django.db import IntegrityError
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.contrib.messages import get_messages
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 
 
 def homepage(request):
     return render(request, 'scrapchef/homepage.html')
 
 
+
+@login_required
 @login_required
 def dashboard(request):
     user = request.user
-    try:
-        user_profile = UserProfile.objects.get(User=user)
-        occupation = user_profile.Occupation
-        pfp = user_profile.Profile_photo
-    except UserProfile.DoesNotExist:
-        occupation = 'N/A'
-        pfp = None
+    profile = UserProfile.objects.get(User=user)
+    posts = Post.objects.filter(User=user).order_by('-Date')
 
-    context_dict = {
-        'username': user.username,
-        'occupation': occupation,
-        'posts': Post.objects.filter(User=user),
-        'pfp': pfp
-    }
-    return render(request, 'scrapchef/dashboard.html', context=context_dict)
 
+    return render(request, 'scrapchef/dashboard.html', {
+        'user': user,
+        'profile': profile,
+        'posts': posts,
+    })
+
+
+
+@login_required
+def upload_post(request):
+    if request.method == 'POST':
+        media = request.FILES.get('media')
+        caption = request.POST.get('caption')
+
+        if not caption or not media:
+            messages.error(request, "Missing caption or media.")
+            return redirect('scrapchef:dashboard')
+
+        post = Post.objects.create(
+            User=request.user,
+            Caption=caption,
+            Media=media,
+        )
+        return redirect('scrapchef:dashboard')  # ← REDIRECT to dashboard instead of JSON
+
+    return redirect('scrapchef:dashboard')
 
 def feed(request):
     post_list = Post.objects.order_by('Date')
@@ -45,7 +63,7 @@ def feed(request):
 
     # Add a new attribute to check if media is a URL
     for post in post_list:
-        post.is_url = post.Media.startswith("http")
+        post.is_url = post.Media.url.startswith("http")
 
     context_dict = {
         'zip_post_ratings': zip(post_list, avg_ratings),
@@ -133,6 +151,17 @@ def editpost(request, post_name_slug):
     return render(request, 'scrapchef/editpost.html', context=context_dict)
 
 
+@login_required
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id, User=request.user)
+    if request.method == 'POST':
+        post.delete()
+        return redirect('scrapchef:dashboard')  
+    return redirect('scrapchef:dashboard')
+
+
+
+
 def trending(request):
     # getting post objects and then getting the count of their reviews to sort by most reviewed
     post_list = Post.objects
@@ -165,8 +194,11 @@ def bestmeals(request):
 
     # Add a new attribute to check if media is a URL
     for post in sorted_posts:
-        post.is_url = post.Media.startswith("http")
-
+        if post.Media:    
+            media_url = post.Media.url
+            post.is_url = media_url.startswith("http") 
+        else:
+            post.is_url = False  
     context_dict = {
         'zip_post_ratings': zip(sorted_posts, avg_ratings),
     }
@@ -180,7 +212,11 @@ def worstmeals(request):
 
     # Add a new attribute to check if media is a URL
     for post in sorted_posts:
-        post.is_url = post.Media.startswith("http")
+        if post.Media:
+            media_url = post.Media.url
+            post.is_url = media_url.startswith("http")
+        else:
+            post.is_url = False  
 
     context_dict = {
         'zip_post_ratings': zip(sorted_posts, avg_ratings),
@@ -204,7 +240,6 @@ def recent(request):
 
 
 def rating(request, post_name_slug):
-    # context dict has simply the post that is being reviewed
     context_dict = {}
     try:
         post = Post.objects.get(slug=post_name_slug)
@@ -212,8 +247,25 @@ def rating(request, post_name_slug):
     except Post.DoesNotExist:
         context_dict['post'] = None
 
-    return render(request, 'scrapchef/rating.html', context=context_dict)
+    if request.method == 'POST' and post:
+        taste_val = request.POST.get('taste')
+        struggle_val = request.POST.get('struggle')
+        prep_val = request.POST.get('prep')
 
+        if taste_val and struggle_val and prep_val:
+            taste = int(taste_val)
+            struggle = int(struggle_val)
+            prep = int(prep_val)
+
+            review = Review(Taste=taste, Struggle=struggle, Preparation=prep, Post=post)
+            review.save()
+
+            return redirect('scrapchef:feed')  # or wherever you want to go after rating
+
+        # Optional: error message if something's missing
+        context_dict['error'] = "Please select a value for all 3 categories before submitting."
+
+    return render(request, 'scrapchef/rating.html', context=context_dict)
     
 @login_required
 def signout(request):
