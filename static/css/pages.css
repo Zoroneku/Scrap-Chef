@@ -304,6 +304,10 @@ body {
     background-color: #c18cff;
   }
 
+  /* ========================= */
+ /* Delete button */
+ /* ========================= */
+
   .delete-btn-img {
     background: none;
     border: none;
@@ -312,16 +316,14 @@ body {
   }
   
   .delete-img {
-    height: 32px;
+    height: 50px;
     width: auto;
     transition: transform 0.2s ease;
   }
   
   .delete-img:hover {
-    transform: scale(1.05);
+    transform: scale(1.0);
   }
-
-
 
 /* ========================= */
 /* Dashboard Layout */
