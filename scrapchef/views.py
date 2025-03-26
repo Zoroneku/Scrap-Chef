@@ -108,9 +108,17 @@ def unsave_post(request, post_id):
 def saved(request):
     saved_posts = SavedPost.objects.filter(user=request.user)
     posts = [saved_post.post for saved_post in saved_posts]
+    avg_ratings = []
+
+    for post in posts:
+        avg_ratings.append(getPostAvgRatings(post))
+
+    # Add a new attribute to check if media is a URL
+    for post in posts:
+        post.is_url = post.Media.startswith("http")
 
     context = {
-        'saved_posts': posts
+        'zip_post_ratings': zip(posts, avg_ratings),
     }
     return render(request, 'scrapchef/saved.html', context)
 

@@ -23,21 +23,21 @@
         <h2>Your Saved Posts</h2>
         <p>Here you can view all the posts you have saved.</p>
 
-        {% if saved_posts %}
-            {% for post in saved_posts %}
+        {% if zip_post_ratings %}
+            {% for post, avg_rating in zip_post_ratings %}
                 <div class="post-card">
                     <p><strong>{{ post.User.username }} - {{ post.Date }}</strong></p>
                     <p>{{ post.Caption }}</p>
                     {% if post.is_url %}
                         <iframe width="500" height="300" src="{{ post.Media }}"></iframe>
                     {% else %}
-                        <img src="{{ post.Media.url }}" alt="Meal Photo" width="500" height="300"/>
+                        <img src="/media/uploads/{{ post.Media }}" alt="Meal Photo" width="500" height="300"/>
                     {% endif %}
 
                     <div class="post-meta-actions">
-                        <p>Ease of Prep: {{ post.average_preparation }}</p>
-                        <p>Tastiness: {{ post.average_taste }}</p>
-                        <p>Struggle: {{ post.average_struggle }}</p>
+                        <p>Ease of Prep: {{ avg_rating.avgPrep }}</p>
+                        <p>Tastiness: {{ avg_rating.avgTaste }}</p>
+                        <p>Struggle: {{ avg_rating.avgStruggle }}</p>
                         <a href="{% url 'scrapchef:rating' post.slug %}" class="rate-button">Rate</a>
                     </div>
                 </div>

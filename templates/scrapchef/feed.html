@@ -44,7 +44,7 @@
                     {% if post.is_url %}
                         <iframe width="500" height="300" src="{{ post.Media }}"></iframe>
                     {% else %}
-                    <img src="/media/uploads/{{ p.0.Media }}" alt="Meal Photo" width="500" height="300"/>
+                    <img src="/media/uploads/{{ post.Media }}" alt="Meal Photo" width="500" height="300"/>
                     {% endif %}
 
                     <div class="post-meta-actions">
