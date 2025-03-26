@@ -21,6 +21,7 @@
             {% endif %}
             
             <li><a href="{% url 'scrapchef:feed' %}">Feed</a></li>
+            <li><a href="{% url 'scrapchef:worstmeals' %}">Worst Meals</a></li>
             
             {% if user.is_authenticated %}
                 

@@ -20,6 +20,7 @@
             <li><a href="{% url 'scrapchef:homepage' %}">🏠 Home</a></li> <!-- Home link -->
             {% endif %}
             <li><a href="{% url 'scrapchef:feed' %}">Feed</a></li>
+            <li><a href="{% url 'scrapchef:bestmeals' %}">Best Meals</a></li>
 
             {% if user.is_authenticated %}
                 

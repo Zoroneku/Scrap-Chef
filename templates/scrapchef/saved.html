@@ -1,7 +1,73 @@
 {% extends 'scrapchef/base.html' %}
-{% block title %}Saved Posts - Scrap Chef{% endblock %}
+{% load static %}
 
 {% block content %}
-    <h2>Your Saved Posts</h2>
-    <p>Here you can find all your saved recipes.</p>
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle-btn">☰ Menu</button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <ul>
+
+            <li><a href="{% url 'scrapchef:bestmeals' %}">Best Meals</a></li>
+            <li><a href="{% url 'scrapchef:worstmeals' %}">Worst Meals</a></li>
+            <li><a href="{% url 'scrapchef:feed' %}">Feed</a></li>
+            <li><a href="{% url 'scrapchef:dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'scrapchef:signout' %}">Sign Out</a></li>
+            
+        </ul>
+    </div>
+
+    <!-- Main Saved Posts Content -->
+    <div class="saved-posts-main">
+        <h2>Your Saved Posts</h2>
+        <p>Here you can view all the posts you have saved.</p>
+
+        {% if saved_posts %}
+            {% for post in saved_posts %}
+                <div class="post-card">
+                    <p><strong>{{ post.User.username }} - {{ post.Date }}</strong></p>
+                    <p>{{ post.Caption }}</p>
+                    {% if post.is_url %}
+                        <iframe width="500" height="300" src="{{ post.Media }}"></iframe>
+                    {% else %}
+                        <img src="{{ post.Media.url }}" alt="Meal Photo" width="500" height="300"/>
+                    {% endif %}
+
+                    <div class="post-meta-actions">
+                        <p>Ease of Prep: {{ post.average_preparation }}</p>
+                        <p>Tastiness: {{ post.average_taste }}</p>
+                        <p>Struggle: {{ post.average_struggle }}</p>
+                        <a href="{% url 'scrapchef:rating' post.slug %}" class="rate-button">Rate</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <strong>You haven't saved any posts yet.</strong>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+<!-- JavaScript for Sidebar Toggle -->
+{% block scripts %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let sidebar = document.getElementById("sidebar");
+            let toggleBtn = document.querySelector(".sidebar-toggle-btn");
+
+            function toggleSidebar(event) {
+                sidebar.classList.toggle("active");
+                event.stopPropagation(); // Prevents immediate closing
+            }
+
+            toggleBtn.addEventListener("click", toggleSidebar);
+
+            document.addEventListener("click", function (event) {
+                if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
+                    sidebar.classList.remove("active");
+                }
+            });
+        });
+    </script>
 {% endblock %}

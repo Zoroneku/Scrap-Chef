@@ -50,3 +50,15 @@ class List(models.Model):
 
     def __str__(self):
         return self.Title
+    
+class SavedPost(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='saved_posts')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='saved_by_users')
+    saved_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        
+        return f"{self.user.username} saved {self.post.Caption}"
+
+    class Meta:
+        unique_together = ('user', 'post')

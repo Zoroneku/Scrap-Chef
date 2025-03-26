@@ -12,14 +12,13 @@ from django.urls import reverse_lazy
 from django.contrib.messages import get_messages
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from scrapchef.models import SavedPost
 
 
 def homepage(request):
     return render(request, 'scrapchef/homepage.html')
 
 
-
-@login_required
 @login_required
 def dashboard(request):
     user = request.user
@@ -57,7 +56,13 @@ def upload_post(request):
 def feed(request):
     post_list = Post.objects.order_by('Date')
     avg_ratings = []
-    
+
+    # Get the saved posts for the current user
+    if request.user.is_authenticated:
+        saved_post_ids = SavedPost.objects.filter(user=request.user).values_list('post_id', flat=True)
+    else:
+        saved_post_ids = []
+
     for post in post_list:
         avg_ratings.append(getPostAvgRatings(post))
 
@@ -67,9 +72,11 @@ def feed(request):
 
     context_dict = {
         'zip_post_ratings': zip(post_list, avg_ratings),
+        'saved_post_ids': saved_post_ids,  # Pass saved post IDs to the template
     }
     
     return render(request, 'scrapchef/feed.html', context=context_dict)
+
 
 
 
@@ -78,9 +85,35 @@ def privacy(request):
     return render(request, 'scrapchef/privacy.html')
 
 
+@login_required
+def save_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    saved_post, created = SavedPost.objects.get_or_create(user=request.user, post=post)
+    if not created:
+        messages.info(request, "This post is already saved.")
+    else:
+        messages.success(request, "Post saved successfully.")
+    return redirect(f'/feed/?success=saved')
+
+@login_required
+def unsave_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    saved_post = SavedPost.objects.filter(user=request.user, post=post)
+    if saved_post.exists():
+        saved_post.delete()
+    return redirect(f'/feed/?success=unsaved')
+  # Redirect to saved posts page
+
+@login_required
 def saved(request):
-    # add stuff here
-    return render(request, 'scrapchef/saved.html')
+    saved_posts = SavedPost.objects.filter(user=request.user)
+    posts = [saved_post.post for saved_post in saved_posts]
+
+    context = {
+        'saved_posts': posts
+    }
+    return render(request, 'scrapchef/saved.html', context)
+
 
 
 def signup_view(request):
