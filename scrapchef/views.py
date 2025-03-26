@@ -194,8 +194,11 @@ def bestmeals(request):
 
     # Add a new attribute to check if media is a URL
     for post in sorted_posts:
-        post.is_url = post.Media.startswith("http")
-
+        if post.Media:    
+            media_url = post.Media.url
+            post.is_url = media_url.startswith("http") 
+        else:
+            post.is_url = False  
     context_dict = {
         'zip_post_ratings': zip(sorted_posts, avg_ratings),
     }
@@ -209,7 +212,11 @@ def worstmeals(request):
 
     # Add a new attribute to check if media is a URL
     for post in sorted_posts:
-        post.is_url = post.Media.startswith("http")
+        if post.Media:
+            media_url = post.Media.url
+            post.is_url = media_url.startswith("http")
+        else:
+            post.is_url = False  
 
     context_dict = {
         'zip_post_ratings': zip(sorted_posts, avg_ratings),
