@@ -8,12 +8,12 @@
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <ul>
-
-            <li><a href="{% url 'scrapchef:bestmeals' %}">Best Meals</a></li>
-            <li><a href="{% url 'scrapchef:worstmeals' %}">Worst Meals</a></li>
-            <li><a href="{% url 'scrapchef:feed' %}">Feed</a></li>
-            <li><a href="{% url 'scrapchef:dashboard' %}">Dashboard</a></li>
-            <li><a href="{% url 'scrapchef:signout' %}">Sign Out</a></li>
+            <li><a href="{% url 'scrapchef:bestmeals' %}">✨🍽️ Best Meals</a></li>
+            <li><a href="{% url 'scrapchef:worstmeals' %}">🚫🍽️ Worst Meals</a></li>
+            <li><a href="{% url 'scrapchef:feed' %}">📜 Feed</a></li>
+            <li><a href="{% url 'scrapchef:privacy_security' %}">🔒 Privacy & Security</a></li>
+            <li><a href="{% url 'scrapchef:dashboard' %}">📋 Dashboard</a></li>
+            <li><a href="{% url 'scrapchef:signout' %}">👋 Sign Out</a></li>
             
         </ul>
     </div>
@@ -31,7 +31,7 @@
                     {% if post.is_url %}
                         <iframe width="500" height="300" src="{{ post.Media }}"></iframe>
                     {% else %}
-                        <img src="/media/uploads/{{ post.Media }}" alt="Meal Photo" width="500" height="300"/>
+                        <img src="/media/uploads/{{ post.Media }}" alt="Meal Photo" width="500"/>
                     {% endif %}
 
                     <div class="post-meta-actions">

@@ -18,3 +18,6 @@ class SignUpForm(UserCreationForm):
             profile = UserProfile.objects.create(User=user, Occupation=self.cleaned_data['occupation'])
             profile.save()
         return user
+
+class MakePostForm(forms.Form):
+    url = forms.URLField(widget=forms.URLInput(), required=False)
