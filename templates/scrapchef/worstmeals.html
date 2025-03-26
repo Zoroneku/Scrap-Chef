@@ -20,13 +20,14 @@
             <li><a href="{% url 'scrapchef:homepage' %}">🏠 Home</a></li> <!-- Home link -->
             {% endif %}
             <li><a href="{% url 'scrapchef:feed' %}">Feed</a></li>
-            <li><a href="{% url 'scrapchef:bestmeals' %}">Best Meals</a></li>
+            <li><a href="{% url 'scrapchef:bestmeals' %}">✨🍽️ Best Meals</a></li>
+            <li><a href="{% url 'scrapchef:privacy_security' %}">🔒 Privacy & Security</a></li>
 
             {% if user.is_authenticated %}
                 
-                <li><a href="{% url 'scrapchef:saved' %}">Saved Posts</a></li>
-                <li><a href="{% url 'scrapchef:dashboard' %}">Dashboard</a></li>
-                <li><a href="{% url 'scrapchef:signout' %}">Sign Out</a></li>
+                <li><a href="{% url 'scrapchef:saved' %}">📌 Saved Posts</a></li>
+                <li><a href="{% url 'scrapchef:dashboard' %}">📋 Dashboard</a></li>
+                <li><a href="{% url 'scrapchef:signout' %}">👋 Sign Out</a></li>
 
             {% endif %}
         </ul>

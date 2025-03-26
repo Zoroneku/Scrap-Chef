@@ -20,6 +20,9 @@ def homepage(request):
     return render(request, 'scrapchef/homepage.html')
 
 
+def privacy_security(request):
+    return render(request, 'scrapchef/privacy_security.html')
+
 @login_required
 def dashboard(request):
     user = request.user

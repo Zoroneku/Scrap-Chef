@@ -1,0 +1,80 @@
+{% extends 'scrapchef/base.html' %}
+{% load static %}
+
+{% block title %}Privacy and Security - Scrap Chef{% endblock %}
+
+{% block content %}
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle-btn" onclick="toggleSidebar()">☰ Menu</button>
+    
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="{% url 'scrapchef:feed' %}">📜 Feed</a></li>
+            <li><a href="{% url 'scrapchef:bestmeals' %}">✨🍽️ Best Meals</a></li>
+            <li><a href="{% url 'scrapchef:worstmeals' %}">🚫🍽️ Worst Meals</a></li>
+
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'scrapchef:saved' %}"> 📌 Saved Posts</a></li>
+                <li><a href="{% url 'scrapchef:dashboard' %}">📋 Dashboard</a></li>
+                <li><a href="{% url 'scrapchef:signout' %}">👋 Sign Out</a></li>
+
+            {% endif %}
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1 class="center-text large-font">🔒 Privacy & Security</h1>
+        <p class="center-text small-font">At Scrap Chef, your privacy and data security matter to us. We are committed to creating a safe space for users to share, rate, and explore culinary creations, while ensuring that your personal information is handled responsibly and with care.</p>
+
+        <h2 class="center-text medium-font">♥ What We Collect</h2>
+        <p class="center-text small-font">When you sign up for Scrap Chef, we collect basic information such as your username, email address, and any additional profile details you choose to provide (like occupation). If you upload a post, we store the media you share (images) along with any associated captions or ratings.</p>
+        <p class="center-text small-font"><strong>We do not collect or store sensitive information</strong> such as payment details, geolocation, or contact lists.</p>
+
+        <h2 class="center-text medium-font">♥ How We Use Your Information</h2>
+        <ul class="center-text small-font">
+            <li>Display your profile and posts on your dashboard and feed</li>
+            <li>Help others discover your culinary creations</li>
+            <li>Facilitate rating, saving, and deleting of posts</li>
+            <li>Track leaderboard participation (based on struggle/taste/ease ratings)</li>
+        </ul>
+        <p class="center-text small-font"><strong>We never share your personal data with third parties.</strong> Scrap Chef is a closed community for university learning and personal enjoyment.</p>
+
+        <h2 class="center-text medium-font">♥ Media & Uploads</h2>
+        <p class="center-text small-font">All media you upload is stored securely on our server (<code>MEDIA_ROOT</code>) and served only within the platform. We limit file types and sizes to ensure safety and performance.</p>
+        <p class="center-text small-font"><strong>Uploaded content is visible only within the Scrap Chef platform and is not indexed or shared externally.</strong></p>
+
+        <h2 class="center-text medium-font">♥ Security Practices</h2>
+        <ul class="center-text small-font">
+            <li>🔐 <strong>Authentication:</strong> User accounts are protected by secure login mechanisms</li>
+            <li>🧑‍💻 CSRF protection is enabled across all forms</li>
+            <li>🛡️ Only authenticated users can upload or delete content</li>
+            <li>🔎 Inputs are validated to prevent malicious file uploads or script injection</li>
+            <li>🗑️ Deleted posts are removed from both the database and file storage</li>
+        </ul>
+        <p class="center-text small-font">Our application runs in a secure development environment using Django’s built-in protection features, including protection against SQL injection, XSS, and clickjacking.</p>
+
+        <h2 class="center-text medium-font">♥ Your Rights</h2>
+        <ul class="center-text small-font">
+            <li>Edit or delete your posts at any time</li>
+            <li>Update or remove your profile information</li>
+            <li>Request removal of your account by contacting the Scrap Chef team</li>
+        </ul>
+
+        <h2 class="center-text medium-font">♥ For Educational Use</h2>
+        <p class="center-text small-font">Scrap Chef is developed and maintained as part of a university coursework project. It is not intended for commercial deployment or public distribution outside the academic context.</p>
+    </div>
+
+    <!-- JavaScript for Sidebar -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const content = document.querySelector(".container"); // Target content
+    
+            sidebar.classList.toggle("active");
+            content.classList.toggle("shifted"); // Shift content when sidebar opens
+        }
+    </script>
+
+{% endblock %}

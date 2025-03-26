@@ -166,7 +166,7 @@ body {
 .sidebar ul {
     list-style: none;
     padding: 0;
-    margin-top: 150px; /* Push links down */
+    margin-top: 80px; 
     width: 100%;
 }
 
@@ -657,3 +657,56 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: opacity 0.5s ease-in-out;
 }
+
+/* ========================= */
+/* Privacy and Security Styling */
+/* ========================= */
+.container {
+    transition: margin-left 0.3s ease-in-out;
+    margin-left: 0;
+    padding: 20px;
+}
+
+.container.shifted {
+    margin-left: 250px; /* Moves when sidebar opens */
+}
+
+.center-text {
+    text-align: center;  /* Center align text */
+}
+
+/* Font size classes */
+.large-font {
+    font-size: 45px; 
+    color: #c2aeff;
+}
+
+.medium-font {
+    font-size: 30px; 
+    color: #f1b7f7;
+}
+
+.small-font {
+    font-size: 16px; 
+    color: #e3dff0;
+}
+
+/* Container styling with a maximum width and padding */
+.container {
+    max-width: 500px;  /* Maximum width of the content */
+    margin: 0 auto;    /* Centers the content horizontally */
+    padding: 20px;     /* Adds padding inside the container for space around text */
+}
+
+/* For mobiles */
+@media (max-width: 768px) {
+    .container {
+        max-width: 100%;  /* On smaller screens, use full width */
+        padding: 10px;    /* Reduce padding on smaller screens */
+    }
+}
+
+.container.shifted {
+    margin-left: 250px; /* Moves when sidebar opens */
+}
+
