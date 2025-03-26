@@ -30,7 +30,9 @@
                 {% endif %}
             </p>
             
-            <button class="upload-btn" onclick="openPostModal()">Upload a Post</button>
+            <button class="upload-btn" onclick="openPhotoPostModal()">Upload a Post With Photo</button>
+            
+            <button class="upload-btn" onclick="openVidPostModal()">Upload a Post With Video</button>
         </div>
 
         <!-- Right Section: Post Links -->
@@ -38,9 +40,13 @@
             <h3>Your Posts</h3>
             {% for post in posts %}
                 <div class="edit-posts">
-                    <div class="post-item">
-                        <img src="{{ post.Media.url }}" alt="Post Media" class="dashboard-post-img">
-                        <p>{{ post.Caption }}</p>
+                    <div class="post-item"></div>
+                    <p>{{ post.Caption }}</p>
+                    {% if post.is_url %}
+                        <iframe width="500" height="300" src="{{ post.Media }}"></iframe>
+                    {% else %}
+                        <img src="/media/uploads/{{ post.Media }}" alt="Meal Photo" width="500"/>
+                    {% endif %}
                     </div>
                     <form action="{% url 'scrapchef:delete_post' post.id %}" method="post" style="display:inline;">
                         {% csrf_token %}
@@ -62,12 +68,31 @@
             <h3>Upload a Post</h3>
             <form method="POST" action="{% url 'scrapchef:upload_post' %}" enctype="multipart/form-data">
                 {% csrf_token %}
+
                 <label>Upload Media:</label>
                 <input type="file" name="media" required>
-                <label>Caption:</label>
+
                 <textarea name="caption" required></textarea>
                 <button type="submit" class="modal-btn">Upload</button>
                 <button type="button" class="modal-btn cancel" onclick="closePostModal()">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+     <!-- Upload Post Modal -->
+     <div id="vidPostModal" class="modal" onclick="closeVidPostModal(event)">
+        <div class="modal-content">
+            <h3>Upload a Post</h3>
+            <form method="POST" action="{% url 'scrapchef:upload_post' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <label>Upload Video:</label>
+                {{ form.url }}
+
+                <label>Caption:</label>
+                <textarea name="caption" required></textarea>
+                <button type="submit" class="modal-btn">Upload</button>
+                <button type="button" class="modal-btn cancel" onclick="closeVidPostModal()">Cancel</button>
             </form>
         </div>
     </div>
@@ -78,6 +103,7 @@
             const sidebar = document.getElementById("sidebar");
             const toggleButton = document.querySelector(".sidebar-toggle-btn");
             const modal = document.getElementById("postModal");
+            const vidModal = document.getElementById("vidPostModal");
     
             // Toggle Sidebar (Menu Button)
             toggleButton.addEventListener("click", function () {
@@ -85,8 +111,12 @@
             });
     
             // Open Post Modal
-            function openPostModal() {
+            function openPhotoPostModal() {
                 modal.style.display = 'block';
+            }
+
+            function openVidPostModal() {
+                vidModal.style.display = 'block';
             }
     
             // Close Post Modal (Click outside to close)
@@ -95,10 +125,19 @@
                     modal.style.display = 'none';
                 }
             }
+
+            // Close Post Modal (Click outside to close)
+            function closeVidPostModal(event) {
+                if (!event || event.target === vidModal) {
+                    vidModal.style.display = 'none';
+                }
+            }
     
             // Attach functions to global scope so they work with inline event handlers
-            window.openPostModal = openPostModal;
+            window.openPhotoPostModal = openPhotoPostModal;
+            window.openVidPostModal = openVidPostModal;
             window.closePostModal = closePostModal;
+            window.closeVidPostModal = closeVidPostModal;
         });
     </script>
     

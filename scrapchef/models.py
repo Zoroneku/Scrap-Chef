@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+import os
 
 class UserProfile(models.Model):
     User = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -17,6 +18,7 @@ class Post(models.Model):
     Date = models.DateTimeField(auto_now_add=True)
     User = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     slug = models.SlugField(unique=True, blank=True)
+    Image = models.ImageField(upload_to="uploads/", null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -31,7 +33,14 @@ class Post(models.Model):
 
     def __str__(self):
         return self.Caption
-    
+
+    def delete(self, *args, **kwargs):
+        try:
+            if os.path.isfile(self.Image.path):
+                os.remove(self.Image.path)
+        except ValueError:
+            pass
+        super(Post, self).delete(*args, **kwargs)
 
     
 class Review(models.Model):
