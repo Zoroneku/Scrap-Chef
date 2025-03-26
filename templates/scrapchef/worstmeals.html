@@ -43,7 +43,7 @@
                     {% if p.0.is_url %}
                     <iframe width="500" height="300" src="{{ p.0.Media }}"></iframe>
                     {% else %}
-                    <img src="{{ p.0.Media.url }}" alt="Meal Photo" width="500" height="300"/>
+                    <img src="/media/uploads/{{ p.0.Media }}" alt="Meal Photo" width="500" height="300"/>
                     {% endif %}
                     <p>Ease of Prep: {{ p.1.avgPrep }}</p>
                     <p>Tastiness: {{ p.1.avgTaste }}</p>
