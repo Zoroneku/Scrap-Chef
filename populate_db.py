@@ -84,6 +84,8 @@ def populate():
         create_users(15 - User.objects.count())
 
     videos = fetch_youtube_recipes()
+    pictures = ["woman.jpg", "delicious_pizza.jpg", "grilledcheese.jpg", "guy.jpg", "lasagna.jpg"]
+    captions = ["woman enjoys delectable meal", "yum pizza is the best food", "bread with cheese, what better combo is there", "wow that guys food looks so tasty and delicious", "italy"]
 
     for video in videos:
         Post.objects.create(
@@ -91,10 +93,17 @@ def populate():
             Caption=video["title"],
             User = random.choice(User.objects.all())
         )
+    
+    for i,picture in enumerate(pictures):
+        Post.objects.create(
+            Media=picture,
+            Caption=captions[i],
+            User = random.choice(User.objects.all())
+        )
 
     create_views()
 
-    print("Database population complete! (Users & Posts added, Lists & Reviews remain empty)")
+    print("Database population complete!")
 
 if __name__ == "__main__":
     populate()

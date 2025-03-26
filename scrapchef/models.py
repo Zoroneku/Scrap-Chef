@@ -12,7 +12,7 @@ class UserProfile(models.Model):
     
 
 class Post(models.Model):
-    Media = models.ImageField(upload_to='uploads/')
+    Media = models.CharField(max_length=255)
     Caption = models.CharField(max_length=255)
     Date = models.DateTimeField(auto_now_add=True)
     User = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
