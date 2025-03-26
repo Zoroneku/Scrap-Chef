@@ -20,8 +20,9 @@
         
         <!-- Left Section: User Details -->
         <div class="dashboard-left">
-            <h2>Welcome, {{ user.username }}</h2>
-            <p><strong>Occupation:</strong> {{ user.profile.occupation|default:"Not specified" }}</p>
+            <h2>Welcome, chef {{ user.username }}</h2>
+            <p><strong>Occupation:</strong> 
+                {{ profile.Occupation|default:"No occupation set" }}
             <p><strong>Number of Posts:</strong> 
                 {% if posts %}
                     {{ posts|length }}

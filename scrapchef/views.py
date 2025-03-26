@@ -13,7 +13,7 @@ from django.contrib.messages import get_messages
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from scrapchef.models import SavedPost
-
+from .forms import SignUpForm 
 
 def homepage(request):
     return render(request, 'scrapchef/homepage.html')
@@ -144,12 +144,14 @@ def signup_view(request):
             return redirect("scrapchef:signup_view")
 
         try:
+             # Create the User object
             user = User.objects.create_user(username=username, password=password)
-            user_profile = UserProfile.objects.get(User=user)
-            user_profile.Occupation = occupation
-            user_profile.Profile_photo = ""
+            
+            # Create the UserProfile and set Occupation after the user is created
+            user_profile, created = UserProfile.objects.get_or_create(User=user)
+            user_profile.Occupation = occupation  # Set the occupation
+            user_profile.Profile_photo = profile_photo if profile_photo else ""  # Set profile photo (optional)
             user_profile.save()
-            user.save()
 
             messages.success(request, "Signup successful! Please log in.")
             return redirect(reverse_lazy("scrapchef:login_view"))

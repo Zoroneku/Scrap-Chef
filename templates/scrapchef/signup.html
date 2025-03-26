@@ -44,7 +44,6 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Show instructions on focus
         const usernameInput = document.getElementById("username");
         const passwordInput = document.getElementById("password");
         const usernameInstructions = document.getElementById("username-instructions");
@@ -60,7 +59,6 @@
         passwordInput.addEventListener("focus", () => toggleInstructions(passwordInput, passwordInstructions, true));
         passwordInput.addEventListener("blur", () => toggleInstructions(passwordInput, passwordInstructions, false));
 
-        // ✅ Detect success message and handle redirect
         const successMessage = document.querySelector(".message.success");
         if (successMessage) {
             console.log("✅ Success message detected! Redirecting in 30 seconds...");
