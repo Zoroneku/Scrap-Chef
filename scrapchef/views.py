@@ -13,6 +13,7 @@ from django.contrib.messages import get_messages
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from scrapchef.models import SavedPost
+from scrapchef.forms import MakePostForm
 
 
 def homepage(request):
@@ -27,31 +28,52 @@ def dashboard(request):
     user = request.user
     profile = UserProfile.objects.get(User=user)
     posts = Post.objects.filter(User=user).order_by('-Date')
+    form = MakePostForm()
 
+    for post in posts:
+        post.is_url = post.Media.startswith("http")
 
     return render(request, 'scrapchef/dashboard.html', {
         'user': user,
         'profile': profile,
         'posts': posts,
+        'form': form,
     })
-
 
 
 @login_required
 def upload_post(request):
+    
     if request.method == 'POST':
+
+        url = request.POST.get('url')
         media = request.FILES.get('media')
         caption = request.POST.get('caption')
 
-        if not caption or not media:
-            messages.error(request, "Missing caption or media.")
-            return redirect('scrapchef:dashboard')
+        if not url:
+            if not caption or not media:
+                messages.error(request, "Missing caption or media.")
+                return redirect('scrapchef:dashboard')
 
-        post = Post.objects.create(
-            User=request.user,
-            Caption=caption,
-            Media=media,
-        )
+            post = Post.objects.create(
+                User=request.user,
+                Caption=caption,
+                Media=media,
+                Image=media,
+            )
+        else:
+            if not caption:
+                messages.error(request, "Missing caption or media.")
+                return redirect('scrapchef:dashboard')
+            
+            code = str(url).split("/")[-1]
+            
+            post = Post.objects.create(
+                User=request.user,
+                Caption=caption,
+                Media="https://www.youtube.com/embed/" + code,
+            )
+
         return redirect('scrapchef:dashboard')  # ← REDIRECT to dashboard instead of JSON
 
     return redirect('scrapchef:dashboard')
@@ -79,8 +101,6 @@ def feed(request):
     }
     
     return render(request, 'scrapchef/feed.html', context=context_dict)
-
-
 
 
 def privacy(request):
