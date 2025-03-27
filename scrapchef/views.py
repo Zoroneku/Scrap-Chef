@@ -222,6 +222,29 @@ def editpost(request, post_name_slug):
     return render(request, 'scrapchef/editpost.html', context=context_dict)
 
 
+
+@login_required
+def edit_caption(request, post_id):
+    post = get_object_or_404(Post, id=post_id, User=request.user)
+    
+    if request.method == "POST":
+        new_caption = request.POST.get("caption")
+        if new_caption:
+            post.Caption = new_caption
+            post.save()
+            return redirect('scrapchef:dashboard')  # Redirect to the dashboard or another page
+    
+    return render(request, 'scrapchef/edit_caption.html', {'post': post})
+
+
+
+
+
+
+
+
+
+
 @login_required
 def delete_post(request, post_id):
     post = get_object_or_404(Post, id=post_id, User=request.user)

@@ -48,7 +48,7 @@
                     {% else %}
                         <img src="/media/path/{{ post.Media }}" alt="Meal Photo" width="500"/>
                     {% endif %}
-                    </div>
+                    <a href="{% url 'scrapchef:edit_caption' post.id %}" class="edit-btn">Edit Caption</a>
                     <form action="{% url 'scrapchef:delete_post' post.id %}" method="post" style="display:inline;">
                         {% csrf_token %}
                         <button type="submit" class="delete-btn-img">
@@ -60,6 +60,8 @@
                 <p>No posts yet. Start by uploading one!</p>
             {% endfor %}
         </div>
+    
+    </div>
     
     </div>
 
@@ -98,6 +100,58 @@
         </div>
     </div>
 
+<<<<<<< Updated upstream
+=======
+
+
+
+
+
+    <!-- JavaScript for Sidebar & Modal -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const sidebar = document.getElementById("sidebar");
+            const toggleButton = document.querySelector(".sidebar-toggle-btn");
+            const modal = document.getElementById("postModal");
+            const vidModal = document.getElementById("vidPostModal");
+    
+            // Toggle Sidebar (Menu Button)
+            toggleButton.addEventListener("click", function () {
+                sidebar.classList.toggle("active");
+            });
+    
+            // Open Post Modal
+            function openPhotoPostModal() {
+                modal.style.display = 'block';
+            }
+
+            function openVidPostModal() {
+                vidModal.style.display = 'block';
+            }
+    
+            // Close Post Modal (Click outside to close)
+            function closePostModal(event) {
+                if (!event || event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            }
+
+            // Close Post Modal (Click outside to close)
+            function closeVidPostModal(event) {
+                if (!event || event.target === vidModal) {
+                    vidModal.style.display = 'none';
+                }
+            }
+    
+            // Attach functions to global scope so they work with inline event handlers
+            window.openPhotoPostModal = openPhotoPostModal;
+            window.openVidPostModal = openVidPostModal;
+            window.closePostModal = closePostModal;
+            window.closeVidPostModal = closeVidPostModal;
+        });
+    </script>
+    
+>>>>>>> Stashed changes
 
 {% endblock %}
 

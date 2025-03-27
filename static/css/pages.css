@@ -536,6 +536,21 @@ body {
 /* Edit-Posts */
 /* ========================= */
 
+.edit-btn {
+    display: inline-block;
+    margin: 5px 0;
+    padding: 5px 10px;
+    background-color: #0e2946;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.edit-btn:hover {
+    background-color: #174270;
+}
+
 .edit-posts {
     margin-top: 10px;
     font-size: 14px;

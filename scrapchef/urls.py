@@ -25,6 +25,8 @@ urlpatterns = [
     path('worstmeals/', views.worstmeals, name='worstmeals'),
     path('recent/', views.recent, name='recent'),
     path('signout/', views.signout, name='signout'),
+    path('edit-caption/<int:post_id>/', views.edit_caption, name='edit_caption'),
+
 ]
 
 if settings.DEBUG:

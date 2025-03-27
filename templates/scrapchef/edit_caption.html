@@ -1,0 +1,14 @@
+{% extends 'scrapchef/base.html' %}
+
+{% block title %}Edit Caption{% endblock %}
+
+{% block content %}
+    <h2>Edit Caption for "{{ post.Caption }}"</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="caption">New Caption:</label>
+        <textarea id="caption" name="caption" required>{{ post.Caption }}</textarea>
+        <button type="submit">Save Changes</button>
+        <a href="{% url 'scrapchef:dashboard' %}">Cancel</a>
+    </form>
+{% endblock %}
