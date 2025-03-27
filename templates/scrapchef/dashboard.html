@@ -22,7 +22,7 @@
         <!-- Left Section: User Details -->
         <div class="dashboard-left">
             <h2>Welcome, {{ user.username }}</h2>
-            <p><strong>Occupation:</strong> {{ user.profile.occupation|default:"Not specified" }}</p>
+            <p><strong>Occupation:</strong> {{ profile.Occupation|default:"Not specified" }}</p>
             <p><strong>Number of Posts:</strong> 
                 {% if posts %}
                     {{ posts|length }}
