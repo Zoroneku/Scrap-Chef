@@ -4,15 +4,16 @@
 {% block title %}Dashboard - Scrap Chef{% endblock %}
 
 {% block content %}
-    <!-- Menu Button -->
-    <button class="sidebar-toggle-btn" onclick="toggleSidebar()">☰ Menu</button>
+   
+    <button class="sidebar-toggle-btn">☰ Menu</button>
+
 
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <ul>
             <li><a href="{% url 'scrapchef:feed' %}">📜 Feed</a></li>
-            <li><a href="{% url 'scrapchef:signout' %}">🚪 Sign Out</a></li>
             <li><a href="{% url 'scrapchef:privacy_security' %}">🔒 Privacy & Security</a></li>
+            <li><a href="{% url 'scrapchef:signout' %}">🚪 Sign Out</a></li>
         </ul>
     </div>
 
@@ -101,52 +102,6 @@
     </div>
 
 
-
-
-    <!-- JavaScript for Sidebar & Modal -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const sidebar = document.getElementById("sidebar");
-            const toggleButton = document.querySelector(".sidebar-toggle-btn");
-            const modal = document.getElementById("postModal");
-            const vidModal = document.getElementById("vidPostModal");
-    
-            // Toggle Sidebar (Menu Button)
-            toggleButton.addEventListener("click", function () {
-                sidebar.classList.toggle("active");
-            });
-    
-            // Open Post Modal
-            function openPhotoPostModal() {
-                modal.style.display = 'block';
-            }
-
-            function openVidPostModal() {
-                vidModal.style.display = 'block';
-            }
-    
-            // Close Post Modal (Click outside to close)
-            function closePostModal(event) {
-                if (!event || event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            }
-
-            // Close Post Modal (Click outside to close)
-            function closeVidPostModal(event) {
-                if (!event || event.target === vidModal) {
-                    vidModal.style.display = 'none';
-                }
-            }
-    
-            // Attach functions to global scope so they work with inline event handlers
-            window.openPhotoPostModal = openPhotoPostModal;
-            window.openVidPostModal = openVidPostModal;
-            window.closePostModal = closePostModal;
-            window.closeVidPostModal = closeVidPostModal;
-        });
-    </script>
-    
 
 {% endblock %}
 
