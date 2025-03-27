@@ -17,7 +17,7 @@ class Post(models.Model):
     Date = models.DateTimeField(auto_now_add=True)
     User = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     slug = models.SlugField(unique=True, blank=True)
-    Image = models.ImageField(upload_to="uploads/", null=True, blank=True)
+    Image = models.ImageField(upload_to="path/", null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
