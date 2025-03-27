@@ -536,33 +536,21 @@ body {
 /* Edit-Posts */
 /* ========================= */
 
-.edit-btn {
-    display: inline-block;
-    margin: 5px 0;
-    padding: 5px 10px;
-    background-color: #0e2946;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 14px;
+.edit-btn-img {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
 }
 
-.edit-btn:hover {
-    background-color: #174270;
+.edit-img {
+    height: 50px;
+    width: auto;
+    transition: transform 0.2s ease;
 }
 
-.edit-posts {
-    margin-top: 10px;
-    font-size: 14px;
-}
-
-.edit-posts a {
-    color: #c18cff;
-    text-decoration: none;
-}
-
-.edit-posts a:hover {
-    text-decoration: underline;
+.edit-img:hover {
+    transform: rotate(-5deg) scale(1.05);
 }
 
 /* ========================= */
