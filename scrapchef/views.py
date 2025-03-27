@@ -231,8 +231,6 @@ def delete_post(request, post_id):
     return redirect('scrapchef:dashboard')
 
 
-
-
 def trending(request):
     # getting post objects and then getting the count of their reviews to sort by most reviewed
     post_list = Post.objects

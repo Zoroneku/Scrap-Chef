@@ -1,15 +1,8 @@
+{% extends 'scrapchef/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feed - Scrap Chef</title>
-    <link rel="stylesheet" href="{% static 'css/pages.css' %}">
-    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
-</head>
-<body>
 
+
+{% block content %}
     <!-- Sidebar Toggle Button -->
     <button class="sidebar-toggle-btn">☰ Menu</button>
 
@@ -17,22 +10,19 @@
     <div class="sidebar" id="sidebar">
         <ul>
             {% if not user.is_authenticated %}
-            <li><a href="{% url 'scrapchef:homepage' %}">🏠 Home</a></li> <!-- Home link -->
+                <li><a href="{% url 'scrapchef:homepage' %}">🏠 Home</a></li>
             {% endif %}
-            
-            <li><a href="{% url 'scrapchef:feed' %}">Feed</a></li>
-            <li><a href="{% url 'scrapchef:worstmeals' %}"> 🚫🍽️ Worst Meals</a></li>
+
+            <li><a href="{% url 'scrapchef:feed' %}">📜 Feed</a></li>
+            <li><a href="{% url 'scrapchef:worstmeals' %}">🚫🍽️ Worst Meals</a></li>
             <li><a href="{% url 'scrapchef:privacy_security' %}">🔒 Privacy & Security</a></li>
-            
+
             {% if user.is_authenticated %}
-                
-                <li><a href="{% url 'scrapchef:saved' %}"> 📌 Saved Posts</a></li>
+                <li><a href="{% url 'scrapchef:saved' %}">📌 Saved Posts</a></li>
                 <li><a href="{% url 'scrapchef:dashboard' %}">📋 Dashboard</a></li>
                 <li><a href="{% url 'scrapchef:signout' %}">👋 Sign Out</a></li>
-
             {% endif %}
         </ul>
-        
     </div>
 
     <!-- Main Feed Content -->
@@ -46,9 +36,9 @@
                     <p><strong>{{ p.0.User }} - {{ p.0.Date }}</strong></p>
                     <p>{{ p.0.Caption }}</p>
                     {% if p.0.is_url %}
-                    <iframe width="500" height="300" src="{{ p.0.Media }}"></iframe>
+                        <iframe width="500" height="300" src="{{ p.0.Media }}"></iframe>
                     {% else %}
-                    <img src="/media/uploads/{{ p.0.Media }}" alt="Meal Photo" width="500"/>
+                        <img src="/media/uploads/{{ p.0.Media }}" alt="Meal Photo" width="500"/>
                     {% endif %}
                     <p>Ease of Prep: {{ p.1.avgPrep }}</p>
                     <p>Tastiness: {{ p.1.avgTaste }}</p>
@@ -59,28 +49,5 @@
             <strong>No posts available right now.</strong>
         {% endif %}
     </div>
+{% endblock %}
 
-    <!-- JavaScript for Sidebar Toggle -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let sidebar = document.getElementById("sidebar");
-            let toggleBtn = document.querySelector(".sidebar-toggle-btn");
-
-            function toggleSidebar(event) {
-                sidebar.classList.toggle("active");
-                event.stopPropagation(); // Prevents immediate closing
-            }
-
-            toggleBtn.addEventListener("click", toggleSidebar);
-            closeBtn.addEventListener("click", toggleSidebar);
-
-            document.addEventListener("click", function (event) {
-                if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
-                    sidebar.classList.remove("active");
-                }
-            });
-        });
-    </script>
-
-</body>
-</html>

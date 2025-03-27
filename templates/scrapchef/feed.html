@@ -8,18 +8,15 @@
     <!-- Notification Popup -->
     <div id="notification" class="notification" style="display: none;"></div>
 
-
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <ul>
             {% if not user.is_authenticated %}
-                <li><a href="{% url 'scrapchef:homepage' %}">🏠 Home</a></li> <!-- Home link -->
+                <li><a href="{% url 'scrapchef:homepage' %}">🏠 Home</a></li>
             {% endif %}
-
             <li><a href="{% url 'scrapchef:bestmeals' %}">✨🍽️ Best Meals</a></li>
             <li><a href="{% url 'scrapchef:worstmeals' %}">🚫🍽️ Worst Meals</a></li>
             <li><a href="{% url 'scrapchef:privacy_security' %}">🔒 Privacy & Security</a></li>
-            
             {% if user.is_authenticated %}
                 <li><a href="{% url 'scrapchef:saved' %}">📌 Saved Posts</a></li>
                 <li><a href="{% url 'scrapchef:dashboard' %}">📋 Dashboard</a></li>
@@ -33,10 +30,6 @@
         <h2>Latest Posts</h2>
         <p>Here you can see the latest shared meals.</p>
 
-        <!-- Save/Unsave messages -->
-        <p id="save-message" style="display: none; color: green; font-weight: bold;">Post has been saved!</p>
-        <p id="unsave-message" style="display: none; color: red; font-weight: bold;">Post has been unsaved!</p>
-
         {% if zip_post_ratings %}
             {% for post, avg_rating in zip_post_ratings %}
                 <div class="post-card">
@@ -45,7 +38,7 @@
                     {% if post.is_url %}
                         <iframe width="500" height="300" src="{{ post.Media }}"></iframe>
                     {% else %}
-                    <img src="/media/uploads/{{ post.Media }}" alt="Meal Photo" width="500"/>
+                        <img src="/media/uploads/{{ post.Media }}" alt="Meal Photo" width="500"/>
                     {% endif %}
 
                     <div class="post-meta-actions">
@@ -53,14 +46,10 @@
                         <p>Tastiness: {{ avg_rating.avgTaste }}</p>
                         <p>Struggle: {{ avg_rating.avgStruggle }}</p>
                         <a href="{% url 'scrapchef:rating' post.slug %}" class="rate-button">Rate</a>
-                        
-                        <!-- Save/Unsave buttons -->
                         {% if user.is_authenticated %}
                             {% if post.id in saved_post_ids %}
-                                <!-- Show Unsave Button -->
                                 <a href="{% url 'scrapchef:unsave_post' post.id %}" class="unsave-button">Unsave</a>
                             {% else %}
-                                <!-- Show Save Button -->
                                 <a href="{% url 'scrapchef:save_post' post.id %}" class="save-button">Save</a>
                             {% endif %}
                         {% endif %}
@@ -71,63 +60,5 @@
             <strong>No posts available right now.</strong>
         {% endif %}
     </div>
-
 {% endblock %}
 
-<!-- JavaScript for Sidebar Toggle -->
-{% block scripts %}
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let sidebar = document.getElementById("sidebar");
-        let toggleBtn = document.querySelector(".sidebar-toggle-btn");
-
-        toggleBtn.addEventListener("click", function(event) {
-            console.log("Sidebar toggle button clicked");
-            sidebar.classList.toggle("active");
-            event.stopPropagation(); // Prevents immediate closing
-        });
-
-        document.addEventListener("click", function (event) {
-            if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
-                sidebar.classList.remove("active");
-            }
-        });
-
-        // ✅ Extract success parameter from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const successMessage = urlParams.get("success");
-
-        if (successMessage === "saved") {
-            showNotification("✅ Post has been saved!", "green");
-        } else if (successMessage === "unsaved") {
-            showNotification("❌ Post has been unsaved!", "red");
-        }
-
-        // ✅ Function to show popup notification
-        function showNotification(message, color) {
-            let notification = document.getElementById("notification");
-            notification.textContent = message;
-            notification.style.backgroundColor = color;
-            notification.style.display = "block";
-            notification.style.opacity = "1";
-
-            // Fade out and remove notification after 3 seconds
-            setTimeout(() => {
-                let fadeEffect = setInterval(() => {
-                    if (!notification.style.opacity) {
-                        notification.style.opacity = "1";
-                    }
-                    if (notification.style.opacity > "0") {
-                        notification.style.opacity -= "0.1";
-                    } else {
-                        clearInterval(fadeEffect);
-                        notification.style.display = "none";
-                    }
-                }, 50);
-            }, 3000);
-        }
-    });
-</script>
-
-
-{% endblock %}
