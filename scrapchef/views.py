@@ -224,6 +224,22 @@ def delete_post(request, post_id):
     return redirect('scrapchef:dashboard')
 
 
+@login_required
+def edit_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id, User=request.user)
+    if request.method == 'POST':
+
+        caption = request.POST.get('caption')
+
+        if not caption:
+            messages.error(request, "Missing caption or media.")
+            return redirect('scrapchef:dashboard')
+
+        post.Caption = caption
+
+        return redirect('scrapchef:dashboard')
+    
+    return redirect('scrapchef:dashboard')
 
 
 def trending(request):

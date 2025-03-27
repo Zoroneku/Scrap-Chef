@@ -55,6 +55,7 @@
                             <img src="{% static 'images/delete.png' %}" alt="Delete" class="delete-img">
                         </button>
                     </form>
+                    <button class="upload-btn" onclick="openEditPostModal()">Edit Post</button>
                 </div>
             {% empty %}
                 <p>No posts yet. Start by uploading one!</p>
@@ -80,8 +81,8 @@
         </div>
     </div>
 
-     <!-- Upload Post Modal -->
-     <div id="vidPostModal" class="modal" onclick="closeVidPostModal(event)">
+    <!-- Upload Post Modal -->
+    <div id="vidPostModal" class="modal" onclick="closeVidPostModal(event)">
         <div class="modal-content">
             <h3>Upload a Post</h3>
             <form method="POST" action="{% url 'scrapchef:upload_post' %}" enctype="multipart/form-data">
@@ -98,6 +99,22 @@
         </div>
     </div>
 
+    <!-- Edit Post Modal -->
+    <div id="editPostModal" class="modal" onclick="closeEditPostModal(event)">
+        <div class="modal-content">
+            <h3>Edit Post</h3>
+            <form method="POST" action="{% url 'scrapchef:edit_post' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <label>Edit Caption:</label>
+                <textarea name="caption" required></textarea>
+
+                <button type="submit" class="modal-btn">Confirm Changes</button>
+                <button type="button" class="modal-btn cancel" onclick="closeEditPostModal()">Cancel</button>
+            </form>
+        </div>
+    </div>
+
     <!-- JavaScript for Sidebar & Modal -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -105,6 +122,7 @@
             const toggleButton = document.querySelector(".sidebar-toggle-btn");
             const modal = document.getElementById("postModal");
             const vidModal = document.getElementById("vidPostModal");
+            const editModal = document.getElementById("editPostModal");
     
             // Toggle Sidebar (Menu Button)
             toggleButton.addEventListener("click", function () {
@@ -119,6 +137,10 @@
             function openVidPostModal() {
                 vidModal.style.display = 'block';
             }
+
+            function openEditPostModal() {
+                editModal.style.display = 'block';
+            }
     
             // Close Post Modal (Click outside to close)
             function closePostModal(event) {
@@ -127,10 +149,17 @@
                 }
             }
 
-            // Close Post Modal (Click outside to close)
+            // Close Video Post Modal (Click outside to close)
             function closeVidPostModal(event) {
                 if (!event || event.target === vidModal) {
                     vidModal.style.display = 'none';
+                }
+            }
+
+            // Close Edit Post Modal (Click outside to close)
+            function closeEditPostModal(event) {
+                if (!event || event.target === editModal) {
+                    editModal.style.display = 'none';
                 }
             }
     
@@ -139,6 +168,7 @@
             window.openVidPostModal = openVidPostModal;
             window.closePostModal = closePostModal;
             window.closeVidPostModal = closeVidPostModal;
+            window.closeEditPostModal = closeEditPostModal;
         });
     </script>
     
