@@ -193,24 +193,6 @@ header {
     animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Messages for sign up */
-.messages {
-    margin-bottom: 15px;
-    padding: 10px;
-    border-radius: 5px;
-}
-.message {
-    padding: 10px;
-    border-radius: 4px;
-}
-.message.success {
-    background-color: #d4edda;
-    color: #155724;
-}
-.message.error {
-    background-color: #f8d7da;
-    color: #721c24;
-}
 
 /* for mobiles */
 

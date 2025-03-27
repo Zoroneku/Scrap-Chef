@@ -33,10 +33,6 @@
             <input type="text" name="occupation" id="occupation">
         </div>
 
-        <div class="input-group">
-            <label for="profile_photo">Profile Photo (Optional):</label>
-            <input type="file" name="profile_photo" id="profile_photo">
-        </div>
 
         <button type="submit" class="signup-btn">Sign Up</button>
     </form>
@@ -59,26 +55,8 @@
 
         passwordInput.addEventListener("focus", () => toggleInstructions(passwordInput, passwordInstructions, true));
         passwordInput.addEventListener("blur", () => toggleInstructions(passwordInput, passwordInstructions, false));
-
-        // ✅ Detect success message and handle redirect
-        const successMessage = document.querySelector(".message.success");
-        if (successMessage) {
-            console.log("✅ Success message detected! Redirecting in 30 seconds...");
-
-            setTimeout(function () {
-                window.location.href = "{% url 'scrapchef:login_view' %}";
-            }, 30000); // 30 seconds delay
-
-            // Optional: Hide message after a few seconds before redirect
-            setTimeout(function () {
-                successMessage.style.transition = "opacity 1s";
-                successMessage.style.opacity = "0";
-            }, 25000);
-        } else {
-            console.log("❌ No success message found. Not redirecting.");
-        }
     });
 </script>
 
 {% endblock %}
-z
+

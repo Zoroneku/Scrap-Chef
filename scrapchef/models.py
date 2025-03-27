@@ -5,8 +5,7 @@ from django.utils.text import slugify
 class UserProfile(models.Model):
     User = models.OneToOneField(User, on_delete=models.CASCADE)
     Occupation = models.CharField(max_length=100, blank=True, null=True)
-    Profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
-
+    
     def __str__(self):
         return self.User.username
     

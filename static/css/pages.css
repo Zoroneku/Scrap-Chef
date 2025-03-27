@@ -112,6 +112,51 @@ body {
     text-decoration: underline;
 }
 
+.messages {
+    margin-top: 8px !important;  /* Move it higher */
+    max-width: 400px !important;
+    padding: 10px !important;  /* Slightly more padding for better spacing */
+    border-radius: 4px !important;
+    background-color: #b983fb !important;
+    color: #000000 !important;
+    font-size: 1.2em !important;  /* Use em for better scalability */
+    font-weight: bold !important;  /* Make text stand out */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+    text-align: center !important;
+    animation: fadeIn 0.4s ease-out !important;
+}
+
+
+
+.message {
+    margin: 5px 0;  /* Reduce spacing between messages */
+    padding: 6px;  /* Smaller internal padding */
+    font-size: 0.85em;  /* Reduce text size even more */
+}
+
+
+
+.login-page .message.success {
+    background-color: #1ac665; 
+    color: #000000; 
+}
+
+.message.error {
+    background-color: #d82f84; 
+    color: #000000;
+}
+
+/* For animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
 /* ========================= */
 /* Feed Page Styling */
 /* ========================= */

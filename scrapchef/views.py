@@ -126,14 +126,12 @@ def saved(request):
     return render(request, 'scrapchef/saved.html', context)
 
 
-
 def signup_view(request):
     if request.method == "POST":
         username = request.POST.get("username", "").strip()
         password = request.POST.get("password", "").strip()
         occupation = request.POST.get("occupation", "").strip()
-        profile_photo = request.FILES.get("profile_photo", None)
-
+    
         if not username or not password:
             messages.error(request, "Username and password are required.")
             return redirect("scrapchef:signup_view")
@@ -150,12 +148,11 @@ def signup_view(request):
             user = User.objects.create_user(username=username, password=password)
             user_profile = UserProfile.objects.get(User=user)
             user_profile.Occupation = occupation
-            user_profile.Profile_photo = ""
             user_profile.save()
             user.save()
 
-            messages.success(request, "Signup successful! Please log in.")
-            return redirect(reverse_lazy("scrapchef:login_view"))
+            # Redirect to login page with the query parameter 'signup_success=true'
+            return redirect(reverse_lazy("scrapchef:login_view") + "?signup_success=true")
 
         except IntegrityError:
             messages.error(request, "An error occurred. Please try again.")
@@ -165,6 +162,14 @@ def signup_view(request):
 
 
 def login_view(request):
+    
+    storage = messages.get_messages(request)
+    storage.used = True  
+
+    
+    if 'signup_success' in request.GET:
+        messages.success(request, "Signup successful! Please log in.", extra_tags="signup-success")
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -174,9 +179,11 @@ def login_view(request):
             auth_login(request, user)
             return redirect(reverse('scrapchef:dashboard'))
         else:
-            return HttpResponse("Invalid username or password.")
-    
+            messages.error(request, "Invalid username or password.", extra_tags="login-error")
+            return redirect('scrapchef:login_view') 
+
     return render(request, 'scrapchef/login.html')
+
 
 def post(request):
     # add stuff here
