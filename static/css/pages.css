@@ -90,6 +90,17 @@ body {
     filter: brightness(1.2);
 }
 
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
 
 /* ========================= */
 /* Signup & Login Link */
