@@ -27,8 +27,8 @@
 
     <!-- Main Feed Content -->
     <div class="feed-main">
-        <h2>Latest Posts</h2>
-        <p>Here you can see the latest shared meals.</p>
+        <h2>Latest culinary masterpieces</h2>
+        <p>The struggle is real—and it’s plated right here.</p>
 
         {% if zip_post_ratings %}
             {% for post, avg_rating in zip_post_ratings %}
@@ -57,7 +57,7 @@
                 </div>
             {% endfor %}
         {% else %}
-            <strong>No posts available right now.</strong>
+            <strong>No culinary masterpieces available right now.</strong>
         {% endif %}
     </div>
 {% endblock %}
