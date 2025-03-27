@@ -58,7 +58,7 @@ def upload_post(request):
             post = Post.objects.create(
                 User=request.user,
                 Caption=caption,
-                Media=media,
+                Media=str(media).replace(" ", "_"),
                 Image=media,
             )
         else:

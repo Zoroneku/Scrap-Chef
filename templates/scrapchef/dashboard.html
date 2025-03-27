@@ -49,8 +49,11 @@
                     {% else %}
                         <img src="/media/path/{{ post.Media }}" alt="Meal Photo" width="500"/>
                     {% endif %}
-                    <a href="{% url 'scrapchef:edit_caption' post.id %}" class="edit-btn">Edit Caption</a>
-                    <form action="{% url 'scrapchef:delete_post' post.id %}" method="post" style="display:inline;">
+                    <form action="{% url 'scrapchef:edit_caption' post.id %}" method="get" style="display:inline;">
+                        <button type="submit" class="edit-btn-img">
+                            <img src="{% static 'images/okkk.png' %}" alt="Edit Caption" class="edit-img">
+                        </button>
+                    </form>                    <form action="{% url 'scrapchef:delete_post' post.id %}" method="post" style="display:inline;">
                         {% csrf_token %}
                         <button type="submit" class="delete-btn-img">
                             <img src="{% static 'images/delete.png' %}" alt="Delete" class="delete-img">
