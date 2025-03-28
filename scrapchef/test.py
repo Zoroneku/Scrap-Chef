@@ -7,7 +7,6 @@ if not settings.configured:
 from django.test import TestCase
 from django.test.client import Client
 from scrapchef.models import User
-from scrapchef.models import Post 
 
 # Create your tests here.
 class TestLoginView(TestCase):
