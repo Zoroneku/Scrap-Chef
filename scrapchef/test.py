@@ -1,7 +1,12 @@
+import os
+from django.conf import settings
+
+if not settings.configured:
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'scrapchef.settings'
+
 from django.test import TestCase
 from django.test.client import Client
 from scrapchef.models import User
-
 
 # Create your tests here.
 class TestLoginView(TestCase):
