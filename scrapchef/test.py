@@ -16,11 +16,12 @@ class TestLoginView(TestCase):
 
     def test_login_get(self):
         response = self.client.get("/login/")
-        self.assertTrue(b"Sign In" in response.content)
+        self.assertTrue(b"Log In" in response.content)
         self.assertEqual(response.status_code, 200)
 
     def test_login_post_failed(self):
         response = self.client.post("/login/", data={"username": "invalid", "password": "invalid"})
+
         self.assertEqual(b"Invalid username or password.", response.content)
         self.assertEqual(response.status_code, 200)
 
