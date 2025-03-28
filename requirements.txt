@@ -3,3 +3,4 @@ Django==5.1.7
 pillow==11.1.0
 sqlparse==0.5.3
 tzdata==2025.2
+google-api-python-client==2.165.0
